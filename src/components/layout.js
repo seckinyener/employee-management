@@ -30,10 +30,26 @@ export class Layout extends LitElement {
 
     render() {
         return html`
-        <nav>
-            <div class="${this.currentRoute === '/' ? 'active' : ''}" @click=${() => this.navigate("/")}>Employees</div>
-            <div class="${this.currentRoute === '/create' ? 'active' : ''}" @click=${() => this.navigate("/create")}>Create Employee</div>
-        </nav>
+        <div class="layout-banner-container">
+            <div class="layout-banner-row">
+                <div class="layout-banner-ing">
+                    <img src="/assets/ing.svg"></img>
+                    <span>ING</span>
+                </div>
+                <div class="layout-banner-actions">
+                    <div class="layout-banner-action-item ${this.currentRoute === '/' ? 'active' : ''}" @click=${() => this.navigate('/')}>
+                        <span class="material-icons">groups</span>
+                        <span>Employees</span>     
+                    </div>
+                    <div class="layout-banner-action-item ${this.currentRoute === '/create' ? 'active' : ''}" @click=${() => this.navigate('/create')}>
+                        <span class="material-icons">add</span>
+                        <span>Add New</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
         <div class="child-routes">
             <slot></slot>
         </div>
@@ -42,10 +58,45 @@ export class Layout extends LitElement {
 
     static styles = css`
 
+        .layout-banner-container {
+            background-color: white;
+            padding: .5rem;
+        }
+
+        .layout-banner-row {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .layout-banner-ing {
+            display: flex;
+            align-items: center;
+            gap: .5rem
+        }
+
+        .layout-banner-actions {
+            display: flex;
+            gap: .5rem;
+        }
+
+        .layout-banner-action-item {
+            display: flex;
+            align-items: center;
+            gap: .2rem;
+            cursor: pointer;
+            color: #ff7e00a8;
+        }
+
+        .active {
+            color: #ff7e00;
+        }
+
         .material-icons {
             font-family: 'Material Icons';
             font-size: 24px;
             vertical-align: middle;
+            cursor: pointer;
         }
 
         .navigation-menu {
