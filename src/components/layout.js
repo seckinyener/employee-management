@@ -4,8 +4,9 @@ export class Layout extends LitElement {
     render() {
         return html`
             <div>Hebele</div>
+            <slot></slot>
         `
     }
 }
 
-window.customElements.define("layout-component", Layout);
+customElements.define("layout-component", Layout);
