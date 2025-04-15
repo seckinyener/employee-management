@@ -3,7 +3,7 @@ import { html, LitElement } from "lit";
 export class LandingPage extends LitElement{
     render() {
         return html`
-            <div>Test</div>
+            <employee-list></employee-list>
         `
     }
 }
