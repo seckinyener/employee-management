@@ -2,17 +2,20 @@ import { css, html, LitElement } from "lit";
 import { removeEmployee } from "../../../../store/employee-store";
 import { Router } from "@vaadin/router";
 import { t } from "../../../../i18n";
+import { state } from "lit/decorators.js";
 
 export class EmployeeCardItem extends LitElement {
 
     static properties = {
         employee: {type: Object},
-        showConfirmationModal: {type: Boolean}
+        showConfirmationModal: {type: Boolean},
+        actionType: {state: true, type: String}
     }
 
     constructor() {
         super();
         this.employee = {};
+        this.actionType = '';
     }
 
     connectedCallback() {
@@ -29,22 +32,34 @@ export class EmployeeCardItem extends LitElement {
     }
 
     deleteEmployee = () => {
-        console.log('delete employee..')
         this.showConfirmationModal = true;
+        this.actionType = 'delete'
     }
 
     deleteProceedHandler = () => {
-        console.log('delete proceed handler')
         removeEmployee(this.employee.id);
         this.showConfirmationModal = false;
     }
 
-    deleteCancelHandler = (e) => {
-        this.showConfirmationModal = false;
+    editEmployee = () => {
+        this.showConfirmationModal = true;
     }
 
-    editEmployee = () => {
+    editProceedHandler = () => {
+        this.showConfirmationModal = false;
         Router.go(`/update/${this.employee.id}`)
+    }
+
+    confirmationProceedHandler = () => {
+        if(this.actionType === 'delete') {
+            this.deleteProceedHandler();
+        } else {
+            this.editProceedHandler();
+        }
+    }
+
+    confirmationCancelHandler = () => {
+        this.showConfirmationModal = false;
     }
 
     render() {
@@ -93,8 +108,9 @@ export class EmployeeCardItem extends LitElement {
         .employeeName=${this.employee.firstName + " " + this.employee.lastName}
         .isOpen=${this.showConfirmationModal}
         .employeeId=${this.employee.id}
-        @proceed=${this.deleteProceedHandler}
-        @cancel=${this.deleteCancelHandler}
+        .mode=${this.actionType}
+        @proceed=${this.confirmationProceedHandler}
+        @cancel=${this.confirmationCancelHandler}
         >
       </confirmation-modal>
         `
@@ -116,8 +132,8 @@ export class EmployeeCardItem extends LitElement {
 
         .input-block {
             display: flex !important;
-            flex-direction: column;
-            gap: .5rem;
+            flex-direction: column !important;
+            gap: .5rem !important;
         }
 
         .input-block-label {
