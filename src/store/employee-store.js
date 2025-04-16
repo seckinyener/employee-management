@@ -37,14 +37,19 @@ const dummyEmployees = [
 ]
 
 const initialState = {
-    employees: dummyEmployees,
-    filteredEmployees: dummyEmployees,
+    employees: [],
+    filteredEmployees: [],
     currentPage: 1,
     pageSize: 2,
     searchQuery: ''
 }
 
-const employeeSubject = new BehaviorSubject(initialState);
+const loadFromStorage = () => {
+  const stored = localStorage.getItem('employeeStore');
+  return stored ? JSON.parse(stored) : initialState;
+};
+
+const employeeSubject = new BehaviorSubject(loadFromStorage());
 
 export const employee$ = employeeSubject.asObservable();
 
@@ -64,6 +69,7 @@ export const updateStore = (partial) => {
           ) : nextState.employees
     }
     employeeSubject.next(nextState);
+    localStorage.setItem('employeeStore', JSON.stringify(nextState));
 };
 
 export const addEmployee = (employee) => {
