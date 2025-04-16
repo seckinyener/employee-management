@@ -103,11 +103,11 @@ export class AppBar extends LitElement {
             align-items: center;
             gap: .2rem;
             cursor: pointer;
-            color: #ff7e00a8;
+            color: var(--color-orange-light);
         }
 
         .active {
-            color: #ff6600;
+            color: var(--color-orange);
         }
 
         .passive-lang {

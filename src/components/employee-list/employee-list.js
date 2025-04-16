@@ -71,12 +71,12 @@ export class EmployeeList extends LitElement {
             }
 
             .employee-list-header-text {
-                color: #ff7e00;
+                color: var(--color-orange);
                 font-weight: 600;
             }
 
             .active {
-                color: #ff7e00
+                color: var(--color-orange)
             }
 
             .inactive {

@@ -133,7 +133,7 @@ export class EmployeeTable extends LitElement {
             }
 
             th {
-                color: #ff6600;
+                color: var(--color-orange);
                 font-weight: 600;
                 font-size: 14px;
             }
@@ -147,7 +147,7 @@ export class EmployeeTable extends LitElement {
                 display: flex;
                 flex-direction: row;
                 gap: 1rem;
-                color: #ff6600;
+                color: var(--color-orange);
             }
         `
     ]
