@@ -18,7 +18,11 @@ export const translations = {
       edit: 'Edit',
       delete: 'Delete',
       proceed: 'Proceed',
-      employeeList: 'Employee List'
+      employeeList: 'Employee List',
+      required: 'This field is required.',
+      invalidEmail: 'Please enter a valid email address.',
+      invalidPhone: 'Please enter a valid phone number.',
+      invalidDateOfBirth: 'Date of birth should be before than employment date.'
     },
     tr: {
       firstName: 'İsim',
@@ -39,7 +43,11 @@ export const translations = {
       edit: 'Düzenle',
       delete: 'Sil',
       proceed: 'Devam Et',
-      employeeList: 'Çalışan Listesi'
+      employeeList: 'Çalışan Listesi',
+      required: 'Bu alan zorunludur.',
+      invalidEmail: 'Lütfen geçerli bir e-posta adresi girin.',
+      invalidPhone: 'Lütfen geçerli bir telefon numarası girin.',
+      invalidDateOfBirth: 'Doğum tarihinin işe giriş tarihinden önce olmalıdır.'
     }
 };
   

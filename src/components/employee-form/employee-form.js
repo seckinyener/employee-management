@@ -56,57 +56,60 @@ export class EmployeeForm extends LitElement{
 
     validateFirstName = (errors) => {
         if(!this.firstName) {
-            errors['firstName'] = 'First name is required';
+            errors['firstName'] = 'required';
         }
     }
 
     validateLastName = (errors) => {
         if(!this.lastName) {
-            errors['lastName'] = 'Last name is required';
+            errors['lastName'] = 'required';
         }
     }
 
     validateDateOfBirth = (errors) => {
         if (!this.dateOfBirth) {
-            errors['dateOfBirth']= "Date of birth is required";
-        } 
+            errors['dateOfBirth'] = "required";
+        } else if (this.dateOfEmployment && new Date(this.dateOfBirth) >= new Date(this.dateOfEmployment)) {
+            errors['dateOfBirth'] = "invalidDateOfBirth";
+        }
     }
 
     validateDateOfEmployment = (errors) => {
         if (!this.dateOfEmployment) {
-            errors['dateOfEmployment']= "Date of employment is required";
+            errors['dateOfEmployment']= "required";
         } 
     }
 
     validatePhone = (errors) => {
         if(!this.phone) {
-            errors['phone'] = "Phone is required";
+            errors['phone'] = "required";
         } else if(!/^(\+\d{1,2}\s?)?(\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4})$/.test(this.phone)) {
-            errors['phone'] = "Phone number is not in correct format"
+            errors['phone'] = "invalidPhone";
         }
     }
 
     validateEmail = (errors) => {
         if(!this.email) {
-            errors['email'] = "Email is required";
+            errors['email'] = "required";
         } else if(!/\S+@\S+\.\S+/.test(this.email)) {
-            errors['email'] = "Invalid email address.."
+            errors['email'] = "invalidEmail";
         }
     }
 
     validateDepartment = (errors) => {
         if (!this.department) {
-            errors['department'] = "Department is required";
+            errors['department'] = "required";
         }
     }
 
     validatePosition = (errors) => {
         if(!this.position) {
-            errors['position'] = "Position is required"
+            errors['position'] = "required"
         }
     }
 
     validateForm = () => {
+        console.log('this.employeeDetails -> ', this.employeeDetails);
         const errors = {};
         this.validateFirstName(errors);
         this.validateLastName(errors);
@@ -158,27 +161,27 @@ export class EmployeeForm extends LitElement{
                     <div class="grid">
                         <label>${t('firstName')}:
                             <input type="text" .value=${this.firstName} @input=${(e) => this.firstName = e.target.value} />
-                            ${this.errors.firstName ? html`<div class="error">${this.errors.firstName}</div>` : ''}
+                            ${this.errors.firstName ? html`<div class="error">${t(this.errors.firstName)}</div>` : ''}
                         </label>
                         <label>${t('lastName')}:
                             <input type="text" .value=${this.lastName} @input=${(e) => this.lastName = e.target.value} />
-                            ${this.errors.lastName ? html`<div class="error">${this.errors.lastName}</div>` : ''}
+                            ${this.errors.lastName ? html`<div class="error">${t(this.errors.lastName)}</div>` : ''}
                         </label>
                         <label>${t('dateOfEmployment')}:
                             <input type="date" .value=${this.dateOfEmployment} @input=${(e) => this.dateOfEmployment = e.target.value} />
-                            ${this.errors.dateOfEmployment ? html`<div class="error">${this.errors.dateOfEmployment}</div>` : ''}
+                            ${this.errors.dateOfEmployment ? html`<div class="error">${t(this.errors.dateOfEmployment)}</div>` : ''}
                         </label>
                         <label>${t('dateOfBirth')}:
                             <input type="date" .value=${this.dateOfBirth} @input=${(e) => this.dateOfBirth = e.target.value} />
-                            ${this.errors.dateOfBirth ? html`<div class="error">${this.errors.dateOfBirth}</div>` : ''}
+                            ${this.errors.dateOfBirth ? html`<div class="error">${t(this.errors.dateOfBirth)}</div>` : ''}
                         </label>
                         <label>${t('phone')}:
                             <input type="tel" .value=${this.phone} @input=${(e) => this.phone = e.target.value} />
-                            ${this.errors.phone ? html`<div class="error">${this.errors.phone}</div>` : ''}
+                            ${this.errors.phone ? html`<div class="error">${t(this.errors.phone)}</div>` : ''}
                         </label>
                         <label>${t('email')}:
                             <input type="text" .value=${this.email} @input=${(e) => this.email = e.target.value} />
-                            ${this.errors.email ? html`<div class="error">${this.errors.email}</div>` : ''}
+                            ${this.errors.email ? html`<div class="error">${t(this.errors.email)}</div>` : ''}
                         </label>
                         <label>${t('department')}:
                             <select .value=${this.department} @change=${(e) => this.department = e.target.value}>
@@ -186,7 +189,7 @@ export class EmployeeForm extends LitElement{
                                 <option value="Analytics">Analytics</option>
                                 <option value="Tech">Tech</option>
                             </select>
-                            ${this.errors.department ? html`<div class="error">${this.errors.department}</div>` : ''}
+                            ${this.errors.department ? html`<div class="error">${t(this.errors.department)}</div>` : ''}
                         </label>
                         <label>${t('position')}:
                             <select .value=${this.position} @change=${(e) => this.position = e.target.value}>
@@ -195,7 +198,7 @@ export class EmployeeForm extends LitElement{
                                 <option value="Medior">Medior</option>
                                 <option value="Senior">Senior</option>
                             </select>
-                            ${this.errors.position ? html`<div class="error">${this.errors.position}</div>` : ''}
+                            ${this.errors.position ? html`<div class="error">${t(this.errors.position)}</div>` : ''}
                         </label>
                     </div>
                     <div class="buttons">
@@ -246,7 +249,6 @@ export class EmployeeForm extends LitElement{
         .error {
             color: red;
             font-size: 12px;
-            margin-top: 0.5rem;
         }
 
         .save {
