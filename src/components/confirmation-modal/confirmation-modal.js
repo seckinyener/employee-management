@@ -13,7 +13,9 @@ export class ConfirmationModal extends LitElement {
     }
 
     _cancel() {
-        this.dispatchEvent(new CustomEvent('cancel', { bubbles: true, composed: true }));
+        this.dispatchEvent(new CustomEvent('cancel', { bubbles: true, composed: true, detail: {
+            value: this.employeeId
+        }}));
       }
     
       _proceed() {

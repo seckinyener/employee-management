@@ -1,15 +1,19 @@
 import { css, html, LitElement } from "lit";
-import { employee$ } from "../../../store/employee-store";
+import { employee$, removeEmployee } from "../../../store/employee-store";
+import { Router } from "@vaadin/router";
 
 export class EmployeeTable extends LitElement {
 
     static properties = {
-        employeesInPage : {type: Array}
+        employeesInPage : {type: Array},
+        showConfirmationModal: {state: true, type: Boolean},
+        toBeDeletedEmployee: {type: Object}
     }
 
     constructor() {
         super();
         this.employeesInPage = [];
+        this.toBeDeletedEmployee = {};
     }
 
     connectedCallback() {
@@ -23,6 +27,26 @@ export class EmployeeTable extends LitElement {
 
     disconnectedCallback() {
         this.subscription.unsubscribe();
+    }
+
+    editHandler = (id) => {
+        Router.go(`/update/${id}`)
+    }
+
+    deleteEmployee = (employee) => {
+        this.toBeDeletedEmployee = employee;
+        this.showConfirmationModal = true;
+    }
+
+    deleteProceedHandler = () => {
+        removeEmployee(this.toBeDeletedEmployee.id);
+        this.showConfirmationModal = false;
+        this.toBeDeletedEmployee = {};
+    }
+
+    deleteCancelHandler = () => {
+        this.showConfirmationModal = false;
+        this.toBeDeletedEmployee = {};
     }
 
     render() {
@@ -54,8 +78,8 @@ export class EmployeeTable extends LitElement {
                 <td>${emp.position}</td>
                 <td>
                     <div class="action-buttons">
-                        <span class="material-icons">edit</span>
-                        <span class="material-icons">delete</span>
+                        <span class="material-icons" @click=${() => this.editHandler(emp.id)}>edit</span>
+                        <span class="material-icons" @click=${() => this.deleteEmployee(emp)}>delete</span>
                     </div>
 
                 </td>
@@ -65,6 +89,15 @@ export class EmployeeTable extends LitElement {
         </table>
 
         <custom-pagination></custom-pagination>
+
+        <confirmation-modal 
+            .employeeName=${this.toBeDeletedEmployee.firstName + " " + this.toBeDeletedEmployee.lastName}
+            .isOpen=${this.showConfirmationModal}
+            .employeeId=${this.toBeDeletedEmployee.id}
+            @proceed=${this.deleteProceedHandler}
+            @cancel=${this.deleteCancelHandler}
+            >
+        </confirmation-modal>
         `
     }
 
