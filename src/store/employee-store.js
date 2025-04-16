@@ -40,7 +40,7 @@ const initialState = {
     employees: dummyEmployees,
     filteredEmployees: dummyEmployees,
     currentPage: 1,
-    pageSize: 10,
+    pageSize: 2,
     searchQuery: ''
 }
 
@@ -70,7 +70,7 @@ export const addEmployee = (employee) => {
   const current = employeeSubject.getValue();
   const existingEmployees = [...current.employees];
   existingEmployees.push(employee);
-  
+
   updateStore({
     employees: existingEmployees
   })
