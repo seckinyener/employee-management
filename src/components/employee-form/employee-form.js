@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { Router } from "@vaadin/router";
-import { addEmployee, updateEmployee } from "../../store/employee-store";
+import { addEmployee, updateEmployee, getAllEmployees } from "../../store/employee-store";
 import { t } from "../../i18n";
 
 export class EmployeeForm extends LitElement{
@@ -15,7 +15,8 @@ export class EmployeeForm extends LitElement{
         email: {state: true, type: String},
         department: {state: true, type: String},
         position: {state: true, type: String},
-        errors: { state: true, type: Object}
+        errors: { state: true, type: Object},
+        isUserAlreadyExist: { state: true, type: Boolean}
     }
 
     constructor() {
@@ -29,6 +30,7 @@ export class EmployeeForm extends LitElement{
         this.department = '';
         this.position = '';
         this.errors = {};
+        this.isUserAlreadyExist = false;
     }
 
     connectedCallback() {
@@ -108,8 +110,21 @@ export class EmployeeForm extends LitElement{
         }
     }
 
+    validateIfUserExist = () => {
+        const employeesFromState = getAllEmployees();
+        let employeeRecords = [];
+        if(this.employeeDetails) {
+            employeeRecords = employeesFromState.filter(item => item.id !== this.employeeDetails.id);
+        }
+
+        const found = employeeRecords.find((item) => {
+            return item.firstName === this.firstName && item.lastName === this.lastName && item.dateOfBirth === this.dateOfBirth;
+        });
+        console.log('found user -> ', found);
+        this.isUserAlreadyExist = found != null;
+    }
+
     validateForm = () => {
-        console.log('this.employeeDetails -> ', this.employeeDetails);
         const errors = {};
         this.validateFirstName(errors);
         this.validateLastName(errors);
@@ -119,8 +134,9 @@ export class EmployeeForm extends LitElement{
         this.validateEmail(errors);
         this.validateDepartment(errors);
         this.validatePosition(errors);
+        this.validateIfUserExist();
         this.errors = errors;
-        return Object.keys(this.errors).length === 0;
+        return Object.keys(this.errors).length === 0 && !this.isUserAlreadyExist;
     }
 
     handleCancel = () => {
@@ -160,15 +176,15 @@ export class EmployeeForm extends LitElement{
                 <form @submit=${this.handleSubmit}>
                     <div class="grid">
                         <label>${t('firstName')}:
-                            <input type="text" .value=${this.firstName} @input=${(e) => this.firstName = e.target.value} />
+                            <input type="text" .value=${this.firstName} @input=${(e) => this.firstName = e.target.value.trim()} />
                             ${this.errors.firstName ? html`<div class="error">${t(this.errors.firstName)}</div>` : ''}
                         </label>
                         <label>${t('lastName')}:
-                            <input type="text" .value=${this.lastName} @input=${(e) => this.lastName = e.target.value} />
+                            <input type="text" .value=${this.lastName} @input=${(e) => this.lastName = e.target.value.trim()} />
                             ${this.errors.lastName ? html`<div class="error">${t(this.errors.lastName)}</div>` : ''}
                         </label>
                         <label>${t('dateOfEmployment')}:
-                            <input type="date" .value=${this.dateOfEmployment} @input=${(e) => this.dateOfEmployment = e.target.value} />
+                            <input type="date" .value=${this.dateOfEmployment} @input=${(e) => this.dateOfEmployment = e.target.value.trim()} />
                             ${this.errors.dateOfEmployment ? html`<div class="error">${t(this.errors.dateOfEmployment)}</div>` : ''}
                         </label>
                         <label>${t('dateOfBirth')}:
@@ -176,11 +192,11 @@ export class EmployeeForm extends LitElement{
                             ${this.errors.dateOfBirth ? html`<div class="error">${t(this.errors.dateOfBirth)}</div>` : ''}
                         </label>
                         <label>${t('phone')}:
-                            <input type="tel" .value=${this.phone} @input=${(e) => this.phone = e.target.value} />
+                            <input type="tel" .value=${this.phone} @input=${(e) => this.phone = e.target.value.trim()} />
                             ${this.errors.phone ? html`<div class="error">${t(this.errors.phone)}</div>` : ''}
                         </label>
                         <label>${t('email')}:
-                            <input type="text" .value=${this.email} @input=${(e) => this.email = e.target.value} />
+                            <input type="text" .value=${this.email} @input=${(e) => this.email = e.target.value.trim()} />
                             ${this.errors.email ? html`<div class="error">${t(this.errors.email)}</div>` : ''}
                         </label>
                         <label>${t('department')}:
@@ -205,6 +221,7 @@ export class EmployeeForm extends LitElement{
                         <button type="submit" class="save">${t('save')}</button>
                         <button type="button" class="cancel" @click=${this.handleCancel}>${t('cancel')}</button>
                     </div>
+                    ${this.isUserAlreadyExist ? html`<div class="error user-already-exist">${t('userAlreadyExist')}</div>` : ``}
                 </form>
             </div>
         `;
@@ -249,6 +266,11 @@ export class EmployeeForm extends LitElement{
         .error {
             color: red;
             font-size: 12px;
+        }
+
+        .user-already-exist {
+            text-align: center;
+            margin-top: 1rem;
         }
 
         .save {
