@@ -101,3 +101,7 @@ export const removeEmployee = (id) => {
     employees: originalEmployeesAfterRemoval,
   })
 };
+
+export const getAllEmployees = () => {
+  return employeeSubject.getValue().employees;
+}
