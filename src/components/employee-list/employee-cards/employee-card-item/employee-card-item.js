@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { removeEmployee } from "../../../../store/employee-store";
 import { Router } from "@vaadin/router";
+import { t } from "../../../../i18n";
 
 export class EmployeeCardItem extends LitElement {
 
@@ -43,40 +44,40 @@ export class EmployeeCardItem extends LitElement {
         <div class="card">
             <div class="card-details">
                 <div class="input-block">
-                    <div class="input-block-label">First Name:</div> 
+                    <div class="input-block-label">${t('firstName')}:</div> 
                     <div><strong>${this.employee.firstName}</strong></div>
                 </div>
                 <div class="input-block">
-                    <div class="input-block-label">Last Name:</div> 
+                    <div class="input-block-label">${t('lastName')}:</div> 
                     <div><strong>${this.employee.lastName}</strong></div>
                 </div>
                 <div class="input-block">
-                    <div class="input-block-label">Date of Employment:</div> 
+                    <div class="input-block-label">${t('dateOfEmployment')}:</div> 
                     <div><strong>${this.employee.dateOfEmployment}</strong></div>
                 </div>
                 <div class="input-block">
-                    <div class="input-block-label">Date of Birth:</div> 
+                    <div class="input-block-label">${t('dateOfBirth')}:</div> 
                     <div><strong>${this.employee.dateOfBirth}</strong></div>
                 </div>
                 <div class="input-block">
-                    <div class="input-block-label">Phone:</div> 
+                    <div class="input-block-label">${t('phone')}:</div> 
                     <div><strong>${this.employee.phone}</strong></div>
                 </div>
                 <div class="input-block">
-                    <div class="input-block-label">Email:</div>
+                    <div class="input-block-label">${t('email')}:</div>
                     <div><strong>${this.employee.email}</strong></div>
                 </div>
                 <div class="input-block">
-                    <div class="input-block-label">Department:</div> 
+                    <div class="input-block-label">${t('department')}:</div> 
                     <div><strong>${this.employee.department}</strong></div>
                 </div>
                 <div class="input-block">
-                    <div class="input-block-label">Position:</div> 
+                    <div class="input-block-label">${t('position')}:</div> 
                     <div><strong>${this.employee.position}</strong></div>
                 </div>
                 <div class="btns">
-                    <button class="edit" @click=${this.editEmployee}>✏️ Edit</button>
-                    <button class="delete" @click=${this.deleteEmployee}>🗑 Delete</button>
+                    <button class="edit" @click=${this.editEmployee}>✏️ ${t('edit')}</button>
+                    <button class="delete" @click=${this.deleteEmployee}>🗑 ${t('delete')}</button>
                 </div>
             </div>
       </div>

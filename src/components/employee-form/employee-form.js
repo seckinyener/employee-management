@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { Router } from "@vaadin/router";
 import { addEmployee, updateEmployee } from "../../store/employee-store";
+import { t } from "../../i18n";
 
 export class EmployeeForm extends LitElement{
 
@@ -80,32 +81,32 @@ export class EmployeeForm extends LitElement{
             <div class="form-container">
                 <form @submit=${this.handleSubmit}>
                     <div class="grid">
-                        <label>First Name:
+                        <label>${t('firstName')}:
                             <input type="text" .value=${this.firstName} @input=${(e) => this.firstName = e.target.value} />
                         </label>
-                        <label>Last Name:
+                        <label>${t('lastName')}:
                             <input type="text" .value=${this.lastName} @input=${(e) => this.lastName = e.target.value} />
                         </label>
-                        <label>Date of Employment:
+                        <label>${t('dateOfEmployment')}:
                             <input type="date" .value=${this.dateOfEmployment} @input=${(e) => this.dateOfEmployment = e.target.value} />
                         </label>
-                        <label>Date of Birth:
+                        <label>${t('dateOfBirth')}:
                             <input type="date" .value=${this.dateOfBirth} @input=${(e) => this.dateOfBirth = e.target.value} />
                         </label>
-                        <label>Phone:
+                        <label>${t('phone')}:
                             <input type="tel" .value=${this.phone} @input=${(e) => this.phone = e.target.value} />
                         </label>
-                        <label>Email:
+                        <label>${t('email')}:
                             <input type="email" .value=${this.email} @input=${(e) => this.email = e.target.value} />
                         </label>
-                        <label>Department:
+                        <label>${t('department')}:
                             <select .value=${this.department} @change=${(e) => this.department = e.target.value}>
                                 <option value="">Please Select</option>
                                 <option value="Analytics">Analytics</option>
                                 <option value="Tech">Tech</option>
                             </select>
                         </label>
-                        <label>Position:
+                        <label>${t('position')}:
                             <select .value=${this.position} @change=${(e) => this.position = e.target.value}>
                                 <option value="">Please Select</option>
                                 <option value="Junior">Junior</option>
@@ -115,8 +116,8 @@ export class EmployeeForm extends LitElement{
                         </label>
                     </div>
                     <div class="buttons">
-                        <button type="submit" class="save">Save</button>
-                        <button type="button" class="cancel" @click=${this.handleCancel}>Cancel</button>
+                        <button type="submit" class="save">${t('save')}</button>
+                        <button type="button" class="cancel" @click=${this.handleCancel}>${t('cancel')}</button>
                     </div>
                 </form>
             </div>

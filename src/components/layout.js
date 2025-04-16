@@ -1,17 +1,29 @@
 import { css, html, LitElement } from "lit";
 import router from '../router.js';
 import { Router } from "@vaadin/router";
+import { t } from "../i18n.js";
+import { session$, updateSelectedLanguage } from "../store/session.store.js";
 
 export class Layout extends LitElement {
 
     static properties = {
-        currentRoute: { state: true }
+        currentRoute: { state: true },
+        selectedLang: { state: true, type: String }
     };
+
+    constructor() {
+        super();
+        this.fetchCurrentLang();
+    }
 
     connectedCallback() {
         super.connectedCallback();
         this.currentRoute = router.location.pathname;
         window.addEventListener("vaadin-router-location-changed", this.handleRouteChange);
+        session$.subscribe((sessionDetails) => {
+            console.log('inside layout -> session details -> ', sessionDetails);
+            this.selectedLang = sessionDetails.selectedLang;
+        })
     }
 
     disconnectedCallback() {
@@ -28,6 +40,19 @@ export class Layout extends LitElement {
         Router.go(path)
     }
 
+    setLang(lang) {
+        document.documentElement.lang = lang;
+        this.selectedLang = lang
+        this.requestUpdate();
+    }
+
+    fetchCurrentLang() {
+        const lang = document.documentElement.lang || 'en';
+        updateSelectedLanguage(lang);
+    }
+
+    
+
     render() {
         return html`
         <div class="layout-banner-container">
@@ -39,15 +64,22 @@ export class Layout extends LitElement {
                 <div class="layout-banner-actions">
                     <div class="layout-banner-action-item ${this.currentRoute === '/' ? 'active' : ''}" @click=${() => this.navigate('/')}>
                         <span class="material-icons">groups</span>
-                        <span>Employees</span>     
+                        <span>${t('employees')}</span>     
                     </div>
                     <div class="layout-banner-action-item ${this.currentRoute === '/create' ? 'active' : ''}" @click=${() => this.navigate('/create')}>
                         <span class="material-icons">add</span>
-                        <span>Add New</span>
+                        <span>${t('addNew')}</span>
+                    </div>
+                    <div>
+                        <span class=${this.selectedLang === 'tr' ? 'active-lang' : 'passive-lang'} @click=${() => this.setLang('tr')}><img src="/assets/tr.png"></img></span>
+                        <span class=${this.selectedLang === 'en' ? 'active-lang' : 'passive-lang'} @click=${() => this.setLang('en')}><img src="/assets/gb-eng.png"></img></span>
+                        
+                        
                     </div>
                 </div>
-            </div>
 
+                
+            </div>
         </div>
 
         <div class="child-routes">
@@ -57,7 +89,6 @@ export class Layout extends LitElement {
     }
 
     static styles = css`
-
         .layout-banner-container {
             background-color: white;
             padding: .5rem;
@@ -78,6 +109,7 @@ export class Layout extends LitElement {
         .layout-banner-actions {
             display: flex;
             gap: .5rem;
+            align-items: center;
         }
 
         .layout-banner-action-item {
@@ -99,31 +131,12 @@ export class Layout extends LitElement {
             cursor: pointer;
         }
 
-        .navigation-menu {
-            background-color: white;
-        }
-
         .child-routes {
             padding: 1rem 2rem;
         }
 
-        nav {
-            background: #2c3e50;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            gap: 1rem;
-        }
-
-        nav div {
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-        }
-
-        nav div.active {
-            background-color: #1abc9c;
-            font-weight: bold;
+        .passive-lang {
+            opacity: .5;
         }
     `
 }
