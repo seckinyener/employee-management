@@ -9,3 +9,4 @@ import './pages/landing-page';
 import './components/employee-list/employee-list';
 import './components/employee-list/employee-cards/employee-card-item/employee-card-item';
 import './components/confirmation-modal/confirmation-modal';
+import './components/custom-pagination/custom-pagination';

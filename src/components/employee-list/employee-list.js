@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { state } from "lit/decorators.js";
-import { employee$ } from "../../store/employee-store";
+import { employee$, updateStore, getState } from "../../store/employee-store";
 import { session$, updateViewMode } from "../../store/session.store";
 import { VIEW_MODE_CARD, VIEW_MODE_TABLE } from "../../utils/constants";
 
@@ -17,8 +17,8 @@ export class EmployeeList extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        employee$.subscribe((employees) => {
-            console.log('employees -> ', employees)
+        employee$.subscribe((data) => {
+            console.log('employees -> ', data)
         });
 
         session$.subscribe((data) => {
@@ -31,11 +31,26 @@ export class EmployeeList extends LitElement {
         updateViewMode(selectedView);
     }
 
+    onSearch(e) {
+        const query = e.target.value.toLowerCase();
+        updateStore({ 
+          searchQuery: query,
+          currentPage: 1,
+          filteredEmployees: getState().employees.filter(emp =>
+            Object.values(emp).some(val => val.toLowerCase?.().includes(query))
+          )
+        });
+      }
+
     render() {
         return html`
         <div class="employee-list-header-row">
             <div class="employee-list-header-text">
                 <h2>Employee List</h2>
+            </div>
+
+            <div>
+                <input placeholder="Search..." @input=${this.onSearch} />
             </div>
 
             <div>

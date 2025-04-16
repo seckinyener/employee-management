@@ -12,13 +12,22 @@ export class EmployeeCards extends LitElement {
         this.employees = [];
     }
 
+    /*connectedCallback() {
+        super.connectedCallback();
+        this.subscription = employee$.subscribe(state => {
+          const { filteredEmployees, currentPage, pageSize } = state;
+          const start = (currentPage - 1) * pageSize;
+          this.employeesInPage = filteredEmployees.slice(start, start + pageSize);
+        });
+    }*/
+
     connectedCallback() {
         super.connectedCallback();
-        employee$.subscribe((data) => {
-            console.log('data in cards -> ', data);
-            this.employees = data
-            //this.requestUpdate();
-        })
+        this.subscription = employee$.subscribe(state => {
+            const { filteredEmployees, currentPage, pageSize } = state;
+            const start = (currentPage - 1) * pageSize;
+            this.employees = filteredEmployees.slice(start, start + pageSize);
+        });
     }
 
     render() {
@@ -27,7 +36,8 @@ export class EmployeeCards extends LitElement {
             ${this.employees.map(
                 emp => html`<employee-card-item .employee=${emp}></employee-card-item>`
             )}
-      </div>
+        </div>
+        <custom-pagination></custom-pagination>
         `
     }
 
