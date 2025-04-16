@@ -47,6 +47,12 @@ export function getLang() {
   return document.documentElement.lang || 'en';
 }
 
+export function setLang(lang) {
+  //localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+  window.dispatchEvent(new CustomEvent('languageChanged'));
+}
+
 export function t(key) {
   const lang = getLang();
   return translations[lang][key] || key;

@@ -17,7 +17,15 @@ export class EmployeeCardItem extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        console.log('employee card -> ', this.employee);
+        window.addEventListener('languageChanged', this.languageChanged);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('languageChanged', this.languageChanged);
+    }
+
+    languageChanged = () => {
+        this.requestUpdate(); 
     }
 
     deleteEmployee = () => {

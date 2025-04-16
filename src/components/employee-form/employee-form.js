@@ -43,6 +43,15 @@ export class EmployeeForm extends LitElement{
             this.department = this.employeeDetails.department;
             this.position = this.employeeDetails.position;
         }
+        window.addEventListener('languageChanged', this.languageChanged);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('languageChanged', this.languageChanged);
+    }
+
+    languageChanged = () => {
+        this.requestUpdate(); 
     }
 
     validateFirstName = (errors) => {

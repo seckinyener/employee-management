@@ -1,8 +1,7 @@
 import { css, html, LitElement } from "lit";
 import router from "../../router";
 import { Router } from "@vaadin/router";
-import { t } from "../../i18n";
-import { session$, updateSelectedLanguage } from "../../store/session.store";
+import { t,setLang, getLang } from "../../i18n";
 
 export class AppBar extends LitElement {
 
@@ -13,16 +12,13 @@ export class AppBar extends LitElement {
 
     constructor() {
         super();
-        this.fetchCurrentLang();
     }
 
     connectedCallback() {
         super.connectedCallback();
         this.currentRoute = router.location.pathname;
         window.addEventListener("vaadin-router-location-changed", this.handleRouteChange);
-        session$.subscribe((sessionDetails) => {
-            this.selectedLang = sessionDetails.selectedLang;
-        })
+        this.selectedLang = getLang();
     }
 
     disconnectedCallback() {
@@ -42,14 +38,9 @@ export class AppBar extends LitElement {
     setLang(lang) {
         document.documentElement.lang = lang;
         this.selectedLang = lang
+        setLang(lang);
         this.requestUpdate();
     }
-
-    fetchCurrentLang() {
-        const lang = document.documentElement.lang || 'en';
-        updateSelectedLanguage(lang);
-    }
-
 
     render() {
         return html`

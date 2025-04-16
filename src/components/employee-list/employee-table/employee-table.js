@@ -24,10 +24,16 @@ export class EmployeeTable extends LitElement {
           const start = (currentPage - 1) * pageSize;
           this.employeesInPage = filteredEmployees.slice(start, start + pageSize);
         });
+        window.addEventListener('languageChanged', this.languageChanged);
     }
+    
+    languageChanged = () => {
+        this.requestUpdate(); 
+      }
 
     disconnectedCallback() {
         this.subscription.unsubscribe();
+        window.removeEventListener('languageChanged', this.languageChanged);
     }
 
     editHandler = (id) => {
