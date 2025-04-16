@@ -5,7 +5,8 @@ export class ConfirmationModal extends LitElement {
     static properties = {
         employeeName: {type: String},
         employeeId: {type: Number},
-        isOpen: {type: Boolean}
+        isOpen: {type: Boolean},
+        mode: {type: String}
     }
 
     constructor() {
@@ -13,18 +14,18 @@ export class ConfirmationModal extends LitElement {
     }
 
     _cancel() {
-        this.dispatchEvent(new CustomEvent('cancel', { bubbles: true, composed: true, detail: {
-            value: this.employeeId
-        }}));
-      }
+      this.dispatchEvent(new CustomEvent('cancel', { bubbles: true, composed: true, detail: {
+          value: this.employeeId
+      }}));
+    }
     
-      _proceed() {
-        this.dispatchEvent(new CustomEvent('proceed', { bubbles: true, composed: true }));
-      }
+    _proceed() {
+      this.dispatchEvent(new CustomEvent('proceed', { bubbles: true, composed: true }));
+    }
     
-      _backgroundClick() {
-        this._cancel(); 
-      }
+    _backgroundClick() {
+      this._cancel(); 
+    }
 
     render() {
         if(!this.isOpen) return html``;
@@ -34,10 +35,10 @@ export class ConfirmationModal extends LitElement {
             <div class="modal" @click=${(e) => e.stopPropagation()}>
             <div class="modal-header">
                 Are you sure?
-                <button class="close-btn" @click=${this._cancel}>❌</button>
+                <button class="close-btn" @click=${this._cancel}>X</button>
             </div>
             <div>
-                Selected employee record (<strong>${this.employeeName}</strong>) will be deleted.
+                Selected employee record (<strong>${this.employeeName}</strong>) will be ${this.mode === 'delete' ? html`<span>deleted</span>` : html`<span>edited</span>`}.
             </div>
             <div class="modal-buttons">
                 <button class="proceed" @click=${this._proceed}>Proceed</button>
@@ -77,6 +78,7 @@ export class ConfirmationModal extends LitElement {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      color: var(--color-orange);
     }
 
     .close-btn {
@@ -84,6 +86,7 @@ export class ConfirmationModal extends LitElement {
       border: none;
       font-size: 18px;
       cursor: pointer;
+      color: var(--color-orange);
     }
 
     .modal-buttons {
@@ -102,14 +105,23 @@ export class ConfirmationModal extends LitElement {
     }
 
     .proceed {
-      background-color: #ff7e00;
+      background-color: var(--color-orange);
       color: white;
+    }
+
+    .proceed:hover {
+      background-color: var(--color-orange-dark);
     }
 
     .cancel {
       background-color: white;
       border: 1px solid #5c4efc !important;
       color: #5c4efc
+    }
+
+    .cancel:hover {
+      background-color: #5c4efc;
+      color: white;
     }
     `
 }
