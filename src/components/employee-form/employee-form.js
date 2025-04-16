@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { Router } from "@vaadin/router";
+import { addEmployee, updateEmployee } from "../../store/employee-store";
 
 export class EmployeeForm extends LitElement{
 
@@ -17,7 +18,6 @@ export class EmployeeForm extends LitElement{
 
     constructor() {
         super();
-        console.log('inside constructor');
         this.firstName = '';
         this.lastName = '';
         this.dateOfBirth = '';
@@ -29,7 +29,6 @@ export class EmployeeForm extends LitElement{
     }
 
     connectedCallback() {
-        console.log('connected callback');
         super.connectedCallback();
         if(this.employeeDetails) {
             this.firstName = this.employeeDetails.firstName;
@@ -65,8 +64,10 @@ export class EmployeeForm extends LitElement{
 
         if(this.employeeDetails) {
             // call update
+            updateEmployee(emp)
         } else {
             // call add
+            addEmployee(emp);
         }
 
         Router.go("/");
