@@ -7,3 +7,4 @@ import './pages/create-employee';
 import './pages/update-employee';
 import './pages/landing-page';
 import './components/employee-list/employee-list';
+import './components/confirmation-modal/confirmation-modal';
