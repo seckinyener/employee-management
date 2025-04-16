@@ -153,6 +153,7 @@ export class EmployeeForm extends LitElement{
     render() {
         return html`
             <div class="form-container">
+                ${this.employeeDetails ? html`<div><strong>You are editing ${this.employeeDetails.firstName} ${this.employeeDetails.lastName}</strong>` : ''}
                 <form @submit=${this.handleSubmit}>
                     <div class="grid">
                         <label>${t('firstName')}:
@@ -217,13 +218,15 @@ export class EmployeeForm extends LitElement{
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
+            gap: 3rem 6rem;
+            padding: 1rem;
         }
 
         label {
             display: flex;
             flex-direction: column;
             font-weight: 500;
+            gap: .5rem;
         }
 
         input, select {
@@ -247,22 +250,35 @@ export class EmployeeForm extends LitElement{
         }
 
         .save {
-            background-color: #f60;
+            background-color: var(--color-orange);
             color: white;
             padding: 0.7rem 2rem;
             border: none;
             border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
+            width: 20%
+        }
+
+        .save:hover {
+            background-color: var(--color-orange-dark);
         }
 
         .cancel {
             background: none;
-            border: 1px solid #999;
+            border: 1px solid #5c4efc !important;
             padding: 0.7rem 2rem;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
+            width: 20%;
+            background-color: white;
+            color: #5c4efc
+        }
+
+        .cancel:hover {
+            background-color: #5c4efc;
+            color: white;
         }
     `;
 
