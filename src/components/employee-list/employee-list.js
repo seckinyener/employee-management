@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { state } from "lit/decorators.js";
+import { employee$ } from "../../store/employee-store";
 
 export class EmployeeList extends LitElement {
 
@@ -10,6 +11,13 @@ export class EmployeeList extends LitElement {
     constructor() {
         super();
         this.selectedView = 'Table';
+    };
+
+    connectedCallback() {
+        super.connectedCallback();
+        employee$.subscribe((employees) => {
+            console.log('employees -> ', employees)
+        });
     }
 
     changeTheView = (selectedView) => {
