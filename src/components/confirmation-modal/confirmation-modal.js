@@ -100,12 +100,14 @@ export class ConfirmationModal extends LitElement {
     }
 
     .proceed {
-      background-color: #d9534f;
+      background-color: #ff7e00;
       color: white;
     }
 
     .cancel {
-      background-color: #f0f0f0;
+      background-color: white;
+      border: 1px solid #5c4efc !important;
+      color: #5c4efc
     }
     `
 }

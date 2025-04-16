@@ -1,9 +1,11 @@
 import { css, html, LitElement } from "lit";
+import { removeEmployee } from "../../../../store/employee-store";
 
 export class EmployeeCardItem extends LitElement {
 
     static properties = {
-        employee: {type: Object}
+        employee: {type: Object},
+        showConfirmationModal: {type: Boolean}
     }
 
     constructor() {
@@ -14,6 +16,22 @@ export class EmployeeCardItem extends LitElement {
     connectedCallback() {
         super.connectedCallback();
         console.log('employee card -> ', this.employee);
+    }
+
+    deleteEmployee = () => {
+        console.log('delete employee..')
+        this.showConfirmationModal = true;
+    }
+
+    deleteProceedHandler = () => {
+        console.log('delete proceed handler')
+        removeEmployee(this.employee.id);
+        this.showConfirmationModal = false;
+    }
+
+    deleteCancelHandler = () => {
+        console.log('delete cancel handler')
+        this.showConfirmationModal = false;
     }
 
     render() {
@@ -54,10 +72,17 @@ export class EmployeeCardItem extends LitElement {
                 </div>
                 <div class="btns">
                     <button class="edit">✏️ Edit</button>
-                    <button class="delete">🗑 Delete</button>
+                    <button class="delete" @click=${this.deleteEmployee}>🗑 Delete</button>
                 </div>
             </div>
       </div>
+      <confirmation-modal 
+        .employeeName=${this.employee.firstName + " " + this.employee.lastName}
+        .isOpen=${this.showConfirmationModal}
+        @proceed=${this.deleteProceedHandler}
+        @cancel=${this.deleteCancelHandler}
+        >
+      </confirmation-modal>
         `
     }
 
