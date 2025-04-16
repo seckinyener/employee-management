@@ -11,6 +11,28 @@ const initialState = [
     email: "string",
     department: "string",
     position: "string"
+  },
+  {
+    id: 2,
+    firstName: "seckin",
+    lastName: "string",
+    dateOfEmployment: "string",
+    dateOfBirth: "string",
+    phone: "string",
+    email: "string",
+    department: "string",
+    position: "string"
+  },
+  {
+    id: 3,
+    firstName: "string",
+    lastName: "string",
+    dateOfEmployment: "string",
+    dateOfBirth: "string",
+    phone: "string",
+    email: "string",
+    department: "string",
+    position: "string"
   }
 ];
 
