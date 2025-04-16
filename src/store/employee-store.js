@@ -54,13 +54,23 @@ export const getState = () => {
 
 export const updateStore = (partial) => {
     const current = employeeSubject.getValue();
-    employeeSubject.next({ ...current, ...partial });
+    const nextState = {...current, ...partial};
+
+    if(partial.employees || nextState.searchQuery) {
+        nextState.filteredEmployees = nextState.searchQuery ? nextState.employees.filter(emp =>
+            Object.values(emp).some(val =>
+              val?.toString().toLowerCase().includes(nextState.searchQuery)
+            )
+          ) : nextState.employees
+    }
+    employeeSubject.next(nextState);
 };
 
 export const addEmployee = (employee) => {
   const current = employeeSubject.getValue();
   const existingEmployees = [...current.employees];
   existingEmployees.push(employee);
+  
   updateStore({
     employees: existingEmployees
   })
@@ -71,6 +81,7 @@ export const updateEmployee = (updatedEmployee) => {
   const updatedEmployees = state.employees.map(emp =>
     emp.id === updatedEmployee.id ? updatedEmployee : emp
   );
+
   updateStore({
     employees: updatedEmployees
   })
@@ -78,9 +89,9 @@ export const updateEmployee = (updatedEmployee) => {
 
 export const removeEmployee = (id) => {
   const current = employeeSubject.getValue();
-  const filtered = current.employees.filter(emp => emp.id !== id);
-  employeeSubject.next(filtered);
+  const originalEmployeesAfterRemoval = current.employees.filter(emp => emp.id !== id);
+
   updateStore({
-    employees: filtered
+    employees: originalEmployeesAfterRemoval,
   })
 };
