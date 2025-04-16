@@ -1,46 +1,56 @@
 import { BehaviorSubject } from 'rxjs';
 
+const dummyEmployees = [
+    {
+        id: 1,
+        firstName: "string",
+        lastName: "string",
+        dateOfEmployment: "string",
+        dateOfBirth: "string",
+        phone: "string",
+        email: "string",
+        department: "string",
+        position: "string"
+      },
+      {
+        id: 2,
+        firstName: "seckin",
+        lastName: "string",
+        dateOfEmployment: "string",
+        dateOfBirth: "string",
+        phone: "string",
+        email: "string",
+        department: "string",
+        position: "string"
+      },
+      {
+        id: 3,
+        firstName: "string",
+        lastName: "string",
+        dateOfEmployment: "string",
+        dateOfBirth: "string",
+        phone: "string",
+        email: "string",
+        department: "string",
+        position: "string"
+      }
+]
+
 const initialState = {
-    employees: [
-        {
-            id: 1,
-            firstName: "string",
-            lastName: "string",
-            dateOfEmployment: "string",
-            dateOfBirth: "string",
-            phone: "string",
-            email: "string",
-            department: "string",
-            position: "string"
-          },
-          {
-            id: 2,
-            firstName: "seckin",
-            lastName: "string",
-            dateOfEmployment: "string",
-            dateOfBirth: "string",
-            phone: "string",
-            email: "string",
-            department: "string",
-            position: "string"
-          },
-          {
-            id: 3,
-            firstName: "string",
-            lastName: "string",
-            dateOfEmployment: "string",
-            dateOfBirth: "string",
-            phone: "string",
-            email: "string",
-            department: "string",
-            position: "string"
-          }
-    ]
+    employees: dummyEmployees,
+    filteredEmployees: dummyEmployees,
+    currentPage: 1,
+    pageSize: 10,
+    searchQuery: ''
 }
 
 const employeeSubject = new BehaviorSubject(initialState);
 
 export const employee$ = employeeSubject.asObservable();
+
+export const getState = () => {
+    return employeeSubject.getValue();
+}
 
 export const updateStore = (partial) => {
     const current = employeeSubject.getValue();

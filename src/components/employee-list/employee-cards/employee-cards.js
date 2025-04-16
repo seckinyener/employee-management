@@ -15,9 +15,7 @@ export class EmployeeCards extends LitElement {
     connectedCallback() {
         super.connectedCallback();
         employee$.subscribe((data) => {
-            console.log('data in cards -> ', data);
-            this.employees = data.employees
-            //this.requestUpdate();
+            this.employees = data.filteredEmployees
         })
     }
 
