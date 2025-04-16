@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { employee$, removeEmployee } from "../../../store/employee-store";
 import { Router } from "@vaadin/router";
+import { t } from "../../../i18n";
 
 export class EmployeeTable extends LitElement {
 
@@ -54,15 +55,15 @@ export class EmployeeTable extends LitElement {
         <table class="employee-table">
             <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Date of Employment</th>
-                <th>Date of Birth</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Department</th>
-                <th>Position</th>
-                <th>Actions</th>
+                <th>${t('firstName')}</th>
+                <th>${t('lastName')}</th>
+                <th>${t('dateOfEmployment')}</th>
+                <th>${t('dateOfBirth')}</th>
+                <th>${t('phone')}</th>
+                <th>${t('email')}</th>
+                <th>${t('department')}</th>
+                <th>${t('position')}</th>
+                <th>${t('actions')}</th>
             </tr>
             </thead>
             <tbody>
