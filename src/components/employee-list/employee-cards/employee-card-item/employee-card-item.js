@@ -30,8 +30,7 @@ export class EmployeeCardItem extends LitElement {
         this.showConfirmationModal = false;
     }
 
-    deleteCancelHandler = () => {
-        console.log('delete cancel handler')
+    deleteCancelHandler = (e) => {
         this.showConfirmationModal = false;
     }
 
@@ -84,6 +83,7 @@ export class EmployeeCardItem extends LitElement {
       <confirmation-modal 
         .employeeName=${this.employee.firstName + " " + this.employee.lastName}
         .isOpen=${this.showConfirmationModal}
+        .employeeId=${this.employee.id}
         @proceed=${this.deleteProceedHandler}
         @cancel=${this.deleteCancelHandler}
         >
