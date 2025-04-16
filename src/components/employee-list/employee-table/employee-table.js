@@ -9,13 +9,15 @@ export class EmployeeTable extends LitElement {
     static properties = {
         employeesInPage : {type: Array},
         showConfirmationModal: {state: true, type: Boolean},
-        toBeDeletedEmployee: {type: Object}
+        toBeDeletedEmployee: {type: Object},
+        actionType: {state: true, type: String}
     }
 
     constructor() {
         super();
         this.employeesInPage = [];
         this.toBeDeletedEmployee = {};
+        this.actionType = 'delete';
     }
 
     connectedCallback() {
@@ -37,13 +39,16 @@ export class EmployeeTable extends LitElement {
         window.removeEventListener('languageChanged', this.languageChanged);
     }
 
-    editHandler = (id) => {
-        Router.go(`/update/${id}`)
+    editHandler = (employee) => {
+        this.toBeDeletedEmployee = employee;
+        this.actionType = 'edit'
+        this.showConfirmationModal = true;
     }
 
-    deleteEmployee = (employee) => {
+    deleteHandler = (employee) => {
         this.toBeDeletedEmployee = employee;
         this.showConfirmationModal = true;
+        this.actionType = 'delete';
     }
 
     deleteProceedHandler = () => {
@@ -52,9 +57,22 @@ export class EmployeeTable extends LitElement {
         this.toBeDeletedEmployee = {};
     }
 
-    deleteCancelHandler = () => {
+    confirmationCancelHandler = () => {
         this.showConfirmationModal = false;
         this.toBeDeletedEmployee = {};
+    }
+
+    editProceedHandler = () => {
+        Router.go(`/update/${this.toBeDeletedEmployee.id}`);
+        this.toBeDeletedEmployee = {};
+    }
+
+    confirmationProceedHandler = () => {
+        if(this.actionType === 'delete') {
+            this.deleteProceedHandler();
+        } else {
+            this.editProceedHandler();
+        }
     }
 
     render() {
@@ -86,8 +104,8 @@ export class EmployeeTable extends LitElement {
                 <td>${emp.position}</td>
                 <td>
                     <div class="action-buttons">
-                        <span class="material-icons" @click=${() => this.editHandler(emp.id)}>edit</span>
-                        <span class="material-icons" @click=${() => this.deleteEmployee(emp)}>delete</span>
+                        <span class="material-icons" @click=${() => this.editHandler(emp)}>edit</span>
+                        <span class="material-icons" @click=${() => this.deleteHandler(emp)}>delete</span>
                     </div>
 
                 </td>
@@ -102,8 +120,9 @@ export class EmployeeTable extends LitElement {
             .employeeName=${this.toBeDeletedEmployee.firstName + " " + this.toBeDeletedEmployee.lastName}
             .isOpen=${this.showConfirmationModal}
             .employeeId=${this.toBeDeletedEmployee.id}
-            @proceed=${this.deleteProceedHandler}
-            @cancel=${this.deleteCancelHandler}
+            .mode=${this.actionType}
+            @proceed=${this.confirmationProceedHandler}
+            @cancel=${this.confirmationCancelHandler}
             >
         </confirmation-modal>
         `
