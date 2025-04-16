@@ -13,7 +13,7 @@ export class UpdateEmployee extends LitElement {
         const employeeId = Number(router.location.params.id);
         employee$.subscribe((data) => {
             console.log('employees -> ', data);
-            this._employeeDetails = this.findEmployeeById(data, employeeId);
+            this._employeeDetails = this.findEmployeeById(data.employees, employeeId);
             console.log('this.employeeDetail -> ', this._employeeDetails);
         })
     }

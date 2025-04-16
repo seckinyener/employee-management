@@ -17,8 +17,8 @@ export class EmployeeList extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        employee$.subscribe((employees) => {
-            console.log('employees -> ', employees)
+        employee$.subscribe((data) => {
+            console.log('employees -> ', data.employees)
         });
 
         session$.subscribe((data) => {
