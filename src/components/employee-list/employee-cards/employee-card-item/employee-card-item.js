@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { removeEmployee } from "../../../../store/employee-store";
+import { Router } from "@vaadin/router";
 
 export class EmployeeCardItem extends LitElement {
 
@@ -32,6 +33,10 @@ export class EmployeeCardItem extends LitElement {
     deleteCancelHandler = () => {
         console.log('delete cancel handler')
         this.showConfirmationModal = false;
+    }
+
+    editEmployee = () => {
+        Router.go(`/update/${this.employee.id}`)
     }
 
     render() {
@@ -71,7 +76,7 @@ export class EmployeeCardItem extends LitElement {
                     <div><strong>${this.employee.position}</strong></div>
                 </div>
                 <div class="btns">
-                    <button class="edit">✏️ Edit</button>
+                    <button class="edit" @click=${this.editEmployee}>✏️ Edit</button>
                     <button class="delete" @click=${this.deleteEmployee}>🗑 Delete</button>
                 </div>
             </div>

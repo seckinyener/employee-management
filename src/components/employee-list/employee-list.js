@@ -1,6 +1,8 @@
 import { css, html, LitElement } from "lit";
 import { state } from "lit/decorators.js";
 import { employee$ } from "../../store/employee-store";
+import { session$, updateViewMode } from "../../store/session.store";
+import { VIEW_MODE_CARD, VIEW_MODE_TABLE } from "../../utils/constants";
 
 export class EmployeeList extends LitElement {
 
@@ -10,7 +12,7 @@ export class EmployeeList extends LitElement {
 
     constructor() {
         super();
-        this.selectedView = 'Table';
+        this.selectedView = VIEW_MODE_TABLE;
     };
 
     connectedCallback() {
@@ -18,10 +20,15 @@ export class EmployeeList extends LitElement {
         employee$.subscribe((employees) => {
             console.log('employees -> ', employees)
         });
+
+        session$.subscribe((data) => {
+            console.log('view mode -> ', data.viewMode);
+            this.selectedView = data.viewMode;
+        })
     }
 
     changeTheView = (selectedView) => {
-        this.selectedView = selectedView;
+        updateViewMode(selectedView);
     }
 
     render() {
@@ -32,8 +39,8 @@ export class EmployeeList extends LitElement {
             </div>
 
             <div>
-                <span class="material-icons ${this.selectedView === 'Table' ? 'active' : 'inactive'}" @click=${() => this.changeTheView('Table')}>menu</span>
-                <span class="material-icons ${this.selectedView === 'Card' ? 'active' : 'inactive'}" @click=${() => this.changeTheView('Card')}>apps</span>
+                <span class="material-icons ${this.selectedView === VIEW_MODE_TABLE ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_TABLE)}>menu</span>
+                <span class="material-icons ${this.selectedView === VIEW_MODE_CARD ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_CARD)}>apps</span>
             </div>
         </div>
 
