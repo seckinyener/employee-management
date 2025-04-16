@@ -1,5 +1,3 @@
-import { session$ } from "./store/session.store";
-
 export const translations = {
     en: {
       firstName: 'First Name',
@@ -23,8 +21,8 @@ export const translations = {
       employeeList: 'Employee List'
     },
     tr: {
-      firstName: 'Ad',
-      lastName: 'Soyad',
+      firstName: 'İsim',
+      lastName: 'Soyisim',
       dateOfEmployment: 'İşe Giriş Tarihi',
       dateOfBirth: 'Doğum Tarihi',
       phone: 'Telefon',
@@ -43,16 +41,16 @@ export const translations = {
       proceed: 'Devam Et',
       employeeList: 'Çalışan Listesi'
     }
-  };
+};
   
-  export function getLang() {
-    return document.documentElement.lang || 'en';
-  }
-  
-  export function t(key) {
-    const lang = getLang();
-    return translations[lang][key] || key;
-  }
+export function getLang() {
+  return document.documentElement.lang || 'en';
+}
+
+export function t(key) {
+  const lang = getLang();
+  return translations[lang][key] || key;
+}
 
 
   
