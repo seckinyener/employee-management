@@ -2,6 +2,7 @@ import { css, html, LitElement } from "lit";
 import { employee$, removeEmployee } from "../../../store/employee-store";
 import { Router } from "@vaadin/router";
 import { t } from "../../../i18n";
+import { materialIconStyles } from "../../../style/common";
 
 export class EmployeeTable extends LitElement {
 
@@ -108,52 +109,48 @@ export class EmployeeTable extends LitElement {
         `
     }
 
-    static styles = css`
-        .employee-table {
-            width: 100%;
-            background-color: white;
-            border-collapse: collapse
-        }
+    static styles = [
+        materialIconStyles,
+        css`
+            .employee-table {
+                width: 100%;
+                background-color: white;
+                border-collapse: collapse
+            }
 
-        thead {
-            background-color: #f5f5f5;
-        }
+            thead {
+                background-color: #f5f5f5;
+            }
 
-        th, td {
-            padding: 12px 16px;
-            text-align: left; /* tüm hücreleri sola hizalar, istersen center veya right yapabilirsin */
-            vertical-align: middle;
-        }
+            th, td {
+                padding: 12px 16px;
+                text-align: left; /* tüm hücreleri sola hizalar, istersen center veya right yapabilirsin */
+                vertical-align: middle;
+            }
 
-        tr {
-            border-bottom: 1px solid #e0e0e0; /* her satırın altına çizgi */
-        }
+            tr {
+                border-bottom: 1px solid #e0e0e0; /* her satırın altına çizgi */
+            }
 
-        th {
-            color: #ff6600;
-            font-weight: 600;
-            font-size: 14px;
-        }
+            th {
+                color: var(--color-orange);
+                font-weight: 600;
+                font-size: 14px;
+            }
 
-        td {
-            font-size: 14px;
-            color: #333;
-        }
+            td {
+                font-size: 14px;
+                color: #333;
+            }
 
-        .material-icons {
-            font-family: 'Material Icons';
-            font-size: 24px;
-            vertical-align: middle;
-            cursor: pointer;
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-direction: row;
-            gap: 1rem;
-            color: #ff6600;
-        }
-    `
+            .action-buttons {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+                color: var(--color-orange);
+            }
+        `
+    ]
 }
 
 window.customElements.define("employee-table", EmployeeTable);

@@ -3,6 +3,7 @@ import { employee$, updateStore, getState } from "../../store/employee-store";
 import { session$, updateViewMode } from "../../store/session.store";
 import { VIEW_MODE_CARD, VIEW_MODE_TABLE } from "../../utils/constants";
 import { t } from "../../i18n";
+import { materialIconStyles } from "../../style/common";
 
 export class EmployeeList extends LitElement {
 
@@ -17,12 +18,7 @@ export class EmployeeList extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        employee$.subscribe((data) => {
-            console.log('employees -> ', data)
-        });
-
         session$.subscribe((data) => {
-            console.log('view mode -> ', data.viewMode);
             this.selectedView = data.viewMode;
         })
     }
@@ -65,33 +61,29 @@ export class EmployeeList extends LitElement {
         `
     }
 
-    static styles = css`
-        .employee-list-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    static styles = [
+        materialIconStyles,
+        css`
+            .employee-list-header-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
-        .employee-list-header-text {
-            color: #ff7e00;
-            font-weight: 600;
-        }
+            .employee-list-header-text {
+                color: var(--color-orange);
+                font-weight: 600;
+            }
 
-        .material-icons {
-            font-family: 'Material Icons';
-            font-size: 24px;
-            vertical-align: middle;
-            cursor: pointer;
-        }
+            .active {
+                color: var(--color-orange)
+            }
 
-        .active {
-            color: #ff7e00
-        }
-
-        .inactive {
-            color: grey
-        }
-    `
+            .inactive {
+                color: grey
+            }
+        `
+    ]
 }
 
 customElements.define('employee-list', EmployeeList);

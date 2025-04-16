@@ -52,7 +52,7 @@ export class CustomPagination extends LitElement {
     button {
       padding: 0.5rem 1rem;
       border: none;
-      background-color: #ff6d00;
+      background-color: var(--color-orange);
       color: white;
       border-radius: 4px;
       cursor: pointer;

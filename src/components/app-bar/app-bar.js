@@ -1,7 +1,9 @@
 import { css, html, LitElement } from "lit";
 import router from "../../router";
 import { Router } from "@vaadin/router";
-import { t,setLang, getLang } from "../../i18n";
+import { t, setLang, getLang } from "../../i18n";
+import { session$, updateSelectedLanguage } from "../../store/session.store";
+import { materialIconStyles } from "../../style/common";
 
 export class AppBar extends LitElement {
 
@@ -70,8 +72,10 @@ export class AppBar extends LitElement {
         `
     }
 
-    static styles = css`
-                .layout-banner-container {
+    static styles = [
+        materialIconStyles,
+        css`
+        .layout-banner-container {
             background-color: white;
             padding: .5rem;
         }
@@ -99,24 +103,18 @@ export class AppBar extends LitElement {
             align-items: center;
             gap: .2rem;
             cursor: pointer;
-            color: #ff7e00a8;
+            color: var(--color-orange-light);
         }
 
         .active {
-            color: #ff7e00;
-        }
-
-        .material-icons {
-            font-family: 'Material Icons';
-            font-size: 24px;
-            vertical-align: middle;
-            cursor: pointer;
+            color: var(--color-orange);
         }
 
         .passive-lang {
             opacity: .5;
         }
-    `
+        `
+    ]
 }
 
 customElements.define('app-bar', AppBar);

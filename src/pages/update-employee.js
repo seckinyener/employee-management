@@ -33,7 +33,7 @@ export class UpdateEmployee extends LitElement {
 
     static styles = css`
         .edit-employee-label {
-            color: #ff7e00;
+            color: var(--color-orange);
         }
     `
 }
