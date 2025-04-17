@@ -304,6 +304,33 @@ export class EmployeeForm extends LitElement{
             background-color: #5c4efc;
             color: white;
         }
+
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .save, .cancel {
+                width: 100%;
+            }
+                
+            .buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-container {
+                margin-bottom: 10px
+            }
+        }       
     `;
 
 

@@ -21,6 +21,15 @@ export class EmployeeList extends LitElement {
         session$.subscribe((data) => {
             this.selectedView = data.viewMode;
         })
+        window.addEventListener('languageChanged', this.languageChanged);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('languageChanged', this.languageChanged);
+    }
+
+    languageChanged = () => {
+        this.requestUpdate(); 
     }
 
     changeTheView = (selectedView) => {
