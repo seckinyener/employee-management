@@ -13,6 +13,7 @@ export class Layout extends LitElement {
     static styles = css`
         .child-routes {
             padding: 1rem 2rem;
+            height: calc(100vh - 5rem);
         }
 
     `

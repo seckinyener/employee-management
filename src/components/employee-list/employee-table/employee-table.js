@@ -77,7 +77,19 @@ export class EmployeeTable extends LitElement {
 
     render() {
         return html`
-        <table class="employee-table">
+        <div class="table-container">
+                    <table class="employee-table">
+            <colgroup>
+                <col style="width: 120px" />
+                <col style="width: 120px" />
+                <col style="width: 140px" />
+                <col style="width: 140px" />
+                <col style="width: 140px" />
+                <col style="width: 200px" />
+                <col style="width: 120px" />
+                <col style="width: 120px" />
+                <col style="width: 100px" />
+            </colgroup>
             <thead>
             <tr>
                 <th>${t('firstName')}</th>
@@ -113,6 +125,7 @@ export class EmployeeTable extends LitElement {
             `)}
             </tbody>
         </table>
+        </div>
 
         <custom-pagination></custom-pagination>
 
@@ -131,13 +144,21 @@ export class EmployeeTable extends LitElement {
     static styles = [
         materialIconStyles,
         css`
+
+            .table-container {
+                overflow-x: auto;
+                max-width: 100%;
+            }
+                
             .employee-table {
                 width: 100%;
                 background-color: white;
-                border-collapse: collapse
+                border-collapse: collapse;
+                overflow-x: auto;
+                min-width: 800px;
             }
 
-            thead {
+            thead { 
                 background-color: #f5f5f5;
             }
 
@@ -167,6 +188,26 @@ export class EmployeeTable extends LitElement {
                 flex-direction: row;
                 gap: 1rem;
                 color: var(--color-orange);
+            }
+
+            @media (max-width: 600px) {
+                th, td {
+                    font-size: 12px;
+                    padding: 8px 12px;
+                }
+
+                .action-buttons {
+                    gap: 0.5rem;
+                }
+
+                .material-icons {
+                    font-size: 18px;
+                }
+
+                .employee-table {
+                    width: 100%;
+                    min-width: 800px;
+                }
             }
         `
     ]

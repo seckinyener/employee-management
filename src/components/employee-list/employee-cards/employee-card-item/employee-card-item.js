@@ -99,8 +99,14 @@ export class EmployeeCardItem extends LitElement {
                     <div><strong>${this.employee.position}</strong></div>
                 </div>
                 <div class="btns">
-                    <button class="edit" @click=${this.editEmployee}>✏️ ${t('edit')}</button>
-                    <button class="delete" @click=${this.deleteEmployee}>🗑 ${t('delete')}</button>
+                    <button class="edit" @click=${this.editEmployee}>
+                        <span class="material-icons">edit</span>
+                        <span>${t('edit')}</span>
+                    </button>
+                    <button class="delete" click=${this.deleteEmployee}>
+                        <span class="material-icons">delete</span>
+                        <span>${t('delete')}
+                    </button>
                 </div>
             </div>
       </div>
@@ -128,12 +134,12 @@ export class EmployeeCardItem extends LitElement {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px 16px;
-        },
+        }
 
         .input-block {
             display: flex !important;
             flex-direction: column !important;
-            gap: .5rem !important;
+            gap: .3rem !important;
         }
 
         .input-block-label {
@@ -145,11 +151,21 @@ export class EmployeeCardItem extends LitElement {
             gap: 0.5rem; 
         }
 
+        .material-icons {
+            font-family: 'Material Icons';
+            font-size: 16px;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
         button { 
             padding: 0.5rem 1rem; 
             border: none; 
             cursor: pointer; 
             border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
         }
 
         .edit { 

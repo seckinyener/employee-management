@@ -40,24 +40,27 @@ export class EmployeeList extends LitElement {
 
     render() {
         return html`
-        <div class="employee-list-header-row">
-            <div class="employee-list-header-text">
-                <h2>${t('employeeList')}</h2>
+        <div class="seckin">
+            <div class="employee-list-header-row">
+                <div class="employee-list-header-text">
+                    <h2>${t('employeeList')}</h2>
+                </div>
+
+                <div>
+                    <input placeholder="Search..." @input=${this.onSearch} />
+                </div>
+
+                <div>
+                    <span class="material-icons ${this.selectedView === VIEW_MODE_TABLE ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_TABLE)}>menu</span>
+                    <span class="material-icons ${this.selectedView === VIEW_MODE_CARD ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_CARD)}>apps</span>
+                </div>
             </div>
 
             <div>
-                <input placeholder="Search..." @input=${this.onSearch} />
-            </div>
-
-            <div>
-                <span class="material-icons ${this.selectedView === VIEW_MODE_TABLE ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_TABLE)}>menu</span>
-                <span class="material-icons ${this.selectedView === VIEW_MODE_CARD ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_CARD)}>apps</span>
+                ${this.selectedView === 'Table' ? html `<employee-table></employee-table` : html `<employee-cards></employee-cards`}
             </div>
         </div>
 
-        <div>
-            ${this.selectedView === 'Table' ? html `<employee-table></employee-table` : html `<employee-cards></employee-cards`}
-        </div>
         `
     }
 
