@@ -112,8 +112,8 @@ export class EmployeeTable extends LitElement {
                 <td>${emp.dateOfBirth}</td>
                 <td>${emp.phone}</td>
                 <td>${emp.email}</td>
-                <td>${emp.department}</td>
-                <td>${emp.position}</td>
+                <td>${t(emp.department)}</td>
+                <td>${t(emp.position)}</td>
                 <td>
                     <div class="action-buttons">
                         <span class="material-icons" @click=${() => this.editHandler(emp)}>edit</span>

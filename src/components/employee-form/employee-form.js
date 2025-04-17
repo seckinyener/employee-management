@@ -201,18 +201,18 @@ export class EmployeeForm extends LitElement{
                         </label>
                         <label>${t('department')}:
                             <select .value=${this.department} @change=${(e) => this.department = e.target.value}>
-                                <option value="">Please Select</option>
-                                <option value="Analytics">Analytics</option>
-                                <option value="Tech">Tech</option>
+                                <option value="">${t('pleaseSelect')}</option>
+                                <option value="analytics">${t('analytics')}</option>
+                                <option value="tech">${t('tech')}</option>
                             </select>
                             ${this.errors.department ? html`<div class="error">${t(this.errors.department)}</div>` : ''}
                         </label>
                         <label>${t('position')}:
                             <select .value=${this.position} @change=${(e) => this.position = e.target.value}>
-                                <option value="">Please Select</option>
-                                <option value="Junior">Junior</option>
-                                <option value="Medior">Medior</option>
-                                <option value="Senior">Senior</option>
+                                <option value="">${t('pleaseSelect')}</option>
+                                <option value="junior">${t('junior')}</option>
+                                <option value="medior">${t('medior')}</option>
+                                <option value="senior">${t('senior')}</option>
                             </select>
                             ${this.errors.position ? html`<div class="error">${t(this.errors.position)}</div>` : ''}
                         </label>
