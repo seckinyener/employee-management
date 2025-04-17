@@ -78,6 +78,8 @@ export class AppBar extends LitElement {
         .layout-banner-container {
             background-color: white;
             padding: .5rem;
+            display: flex;
+            height: 2rem
         }
 
         .layout-banner-row {
