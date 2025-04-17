@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { employee$, updateStore, getState } from "../../store/employee-store";
+import { updateStore, getState } from "../../store/employee-store";
 import { session$, updateViewMode } from "../../store/session.store";
 import { VIEW_MODE_CARD, VIEW_MODE_TABLE } from "../../utils/constants";
 import { t } from "../../i18n";
@@ -8,12 +8,14 @@ import { materialIconStyles } from "../../style/common";
 export class EmployeeList extends LitElement {
 
     static properties = {
-        selectedView: {state: true, type: String}
+        selectedView: {state: true, type: String},
+        debounceTimer: {state: true}
     }
 
     constructor() {
         super();
         this.selectedView = VIEW_MODE_TABLE;
+        this.debounceTimer = null;
     };
 
     connectedCallback() {
@@ -36,40 +38,51 @@ export class EmployeeList extends LitElement {
         updateViewMode(selectedView);
     }
 
-    onSearch(e) {
-        const query = e.target.value.toLowerCase();
-        updateStore({ 
-          searchQuery: query,
-          currentPage: 1,
-          filteredEmployees: getState().employees.filter(emp =>
-            Object.values(emp).some(val => val.toLowerCase?.().includes(query))
-          )
+    debounce(fn, delay = 300) {
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(fn, delay);
+    }
+      
+    handleSearch(e) {
+        const query = e.target.value.trim().toLowerCase();
+        this.debounce(() => {
+            const { employees } = getState();
+        
+            const filtered = employees.filter(employee =>
+            Object.values(employee).some(value =>
+                typeof value === 'string' && value.toLowerCase().includes(query)
+            )
+            );
+        
+            updateStore({
+            searchQuery: query,
+            currentPage: 1,
+            filteredEmployees: filtered
+            });
         });
-      }
+    }
 
     render() {
         return html`
-        <div class="seckin">
+        <div>
             <div class="employee-list-header-row">
                 <div class="employee-list-header-text">
                     <h2>${t('employeeList')}</h2>
                 </div>
-
-                <div>
-                    <input placeholder="Search..." @input=${this.onSearch} />
-                </div>
-
-                <div>
-                    <span class="material-icons ${this.selectedView === VIEW_MODE_TABLE ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_TABLE)}>menu</span>
-                    <span class="material-icons ${this.selectedView === VIEW_MODE_CARD ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_CARD)}>apps</span>
+                <div class="employee-list-actions">
+                    <div class="search-container">
+                        <input class="search-input" placeholder="${t('search')}..." @input=${this.handleSearch} />
+                    </div>
+                    <div class="employee-list-action-buttons">
+                        <span class="material-icons ${this.selectedView === VIEW_MODE_TABLE ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_TABLE)}>menu</span>
+                        <span class="material-icons ${this.selectedView === VIEW_MODE_CARD ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_CARD)}>apps</span>
+                    </div>
                 </div>
             </div>
-
             <div>
                 ${this.selectedView === 'Table' ? html `<employee-table></employee-table` : html `<employee-cards></employee-cards`}
             </div>
         </div>
-
         `
     }
 
@@ -87,6 +100,12 @@ export class EmployeeList extends LitElement {
                 font-weight: 600;
             }
 
+            .employee-list-actions {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+            }
+
             .active {
                 color: var(--color-orange)
             }
@@ -94,6 +113,29 @@ export class EmployeeList extends LitElement {
             .inactive {
                 color: grey
             }
+
+            .search-container {
+                display: flex;
+                justify-content: center;
+                margin: 1.5rem 0;
+            }
+
+            .search-input {
+                width: 100%;
+                max-width: 400px;
+                padding: 0.75rem 1rem;
+                border: 1px solid #ccc;
+                border-radius: 16px; /* Tam yuvarlak kenarlar */
+                outline: none;
+                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                background-color: #fff;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            }
+
+            .search-input:focus {
+                box-shadow: 0 0 0 1px var(--color-orange);
+            }
+
         `
     ]
 }
