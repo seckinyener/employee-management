@@ -82,7 +82,7 @@ export class CustomPagination extends LitElement {
 
   static styles = css`
     .pagination {
-      margin-top: 1rem;
+      padding: 1rem;
       display: flex;
       justify-content: center;
       gap: 6px;

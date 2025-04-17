@@ -1,6 +1,7 @@
 import { css, html, LitElement } from "lit";
 import { employee$ } from "../store/employee-store";
 import router from '../router.js';
+import { t } from "../i18n.js";
 
 export class UpdateEmployee extends LitElement {
 
@@ -16,6 +17,15 @@ export class UpdateEmployee extends LitElement {
             this._employeeDetails = this.findEmployeeById(data.employees, employeeId);
             console.log('this.employeeDetail -> ', this._employeeDetails);
         })
+        window.addEventListener('languageChanged', this.languageChanged);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('languageChanged', this.languageChanged);
+    }
+
+    languageChanged = () => {
+        this.requestUpdate(); 
     }
 
     findEmployeeById = (employeeList, id) => {
@@ -25,8 +35,10 @@ export class UpdateEmployee extends LitElement {
     render() {
         return html`
         <div class="edit-employee-container">
-            <h2 class="edit-employee-label">Edit Employee</h2>
-            <employee-form .employeeDetails=${this._employeeDetails}></employee-form>
+            <h2 class="edit-employee-label">${t('editEmployee')}</h2>
+            <div class="employee-form">
+                <employee-form .employeeDetails=${this._employeeDetails}></employee-form>
+            </div>
         </div>     
         `
     }
@@ -34,6 +46,12 @@ export class UpdateEmployee extends LitElement {
     static styles = css`
         .edit-employee-label {
             color: var(--color-orange);
+        }
+
+        @media (max-width: 768px) {
+            .employee-form {
+                padding-bottom: 1rem;
+            }
         }
     `
 }

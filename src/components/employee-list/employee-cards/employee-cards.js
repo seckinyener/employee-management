@@ -49,6 +49,13 @@ export class EmployeeCards extends LitElement {
         gap: 2rem;
     }
 
+    @media (max-width: 600px) {
+        .grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+    }
+
   `;
 }
 

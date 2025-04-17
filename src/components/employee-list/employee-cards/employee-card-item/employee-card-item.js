@@ -127,7 +127,8 @@ export class EmployeeCardItem extends LitElement {
             border: 1px solid #ccc; 
             padding: 1rem; 
             border-radius: 8px;
-            background-color: white
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .card-details {
@@ -176,6 +177,17 @@ export class EmployeeCardItem extends LitElement {
         .delete { 
             background-color: #ff6600; 
             color: white; 
+        }
+
+        @media (max-width: 600px) {
+            .card-details {
+                grid-template-columns: 1fr;
+            }
+
+            .btns {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
   `;
 }

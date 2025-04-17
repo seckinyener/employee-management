@@ -1,11 +1,28 @@
 import { css, html, LitElement } from "lit";
+import { t } from "../i18n";
 
 export class CreateEmployee extends LitElement {
+
+    connectedCallback() {
+        super.connectedCallback();
+        window.addEventListener('languageChanged', this.languageChanged);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('languageChanged', this.languageChanged);
+    }
+
+    languageChanged = () => {
+        this.requestUpdate(); 
+    }
+
     render() {
         return html`
             <div>
-                <h2 class="create-employee-label">Create Employee</h2>
-                <employee-form></employee-form>
+                <h2 class="create-employee-label">${t('addNew')}</h2>
+                <div class="employee-form">
+                    <employee-form></employee-form>
+                </div>
             </div>
             `
     }
@@ -13,6 +30,12 @@ export class CreateEmployee extends LitElement {
     static styles = css`
         .create-employee-label {
             color: darkorange;
+        }
+
+        @media (max-width: 768px) {
+            .employee-form {
+                padding-bottom: 1rem;
+            }
         }
     `
 }
