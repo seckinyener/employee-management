@@ -24,7 +24,13 @@ export const translations = {
       invalidPhone: 'Please enter a valid phone number.',
       invalidDateOfBirth: 'Date of birth should be before than employment date.',
       userAlreadyExist: '*** User already has a record. Please check first name, last name and date of birth.',
-      search: 'Search'
+      search: 'Search',
+      tech: 'Tech',
+      analytics: 'Analytics',
+      junior: 'Junior',
+      medior: 'Medior',
+      senior: 'Senior',
+      pleaseSelect: 'Please Select'
     },
     tr: {
       firstName: 'İsim',
@@ -51,7 +57,13 @@ export const translations = {
       invalidPhone: 'Lütfen geçerli bir telefon numarası girin.',
       invalidDateOfBirth: 'Doğum tarihinin işe giriş tarihinden önce olmalıdır.',
       userAlreadyExist: '*** Girilmiş olan çalışan isim, soyisim ve doğum tarihi bilgileriyle çalışan kaydı bulunmaktadır.',
-      search: 'Ara'
+      search: 'Ara',
+      tech: 'Teknoloji',
+      analytics: 'Analitik',
+      junior: 'Uzman Yardımcısı',
+      medior: 'Uzman',
+      senior: 'Kıdemli Uzman',
+      pleaseSelect: 'Lütfen Seçiniz'
     }
 };
   
