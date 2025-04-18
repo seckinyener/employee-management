@@ -144,7 +144,6 @@ export class EmployeeTable extends LitElement {
                             <span class="material-icons" @click=${() => this.editHandler(emp)}>edit</span>
                             <span class="material-icons" @click=${() => this.deleteHandler(emp)}>delete</span>
                         </div>
-
                     </td>
                 </tr>
             `)}
