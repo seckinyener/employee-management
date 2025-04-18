@@ -29,7 +29,7 @@ export class CreateEmployee extends LitElement {
 
     static styles = css`
         .create-employee-label {
-            color: darkorange;
+            color: var(--color-orange);
         }
 
         @media (max-width: 768px) {

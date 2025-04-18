@@ -4,6 +4,7 @@ import { Router } from "@vaadin/router";
 import { t } from "../../../i18n";
 import { materialIconStyles } from "../../../style/common";
 import { formatDate } from "../../../utils/util";
+import { Subject, takeUntil } from "rxjs";
 
 export class EmployeeTable extends LitElement {
 
@@ -12,7 +13,8 @@ export class EmployeeTable extends LitElement {
         showConfirmationModal: {state: true, type: Boolean},
         toBeDeletedEmployee: {type: Object},
         actionType: {state: true, type: String},
-        selectedEmployees: {state: true}
+        selectedEmployees: {state: true},
+        destroyed$: {state: true}
     }
 
     constructor() {
@@ -21,26 +23,30 @@ export class EmployeeTable extends LitElement {
         this.toBeDeletedEmployee = {};
         this.actionType = 'delete';
         this.selectedEmployees = new Set();
+        this.destroyed$ = new Subject(false);
     }
 
     connectedCallback() {
         super.connectedCallback();
-        this.subscription = employeeState.employee$.subscribe(state => {
+        employeeState.employee$.pipe(takeUntil(this.destroyed$)).subscribe(state => {
           const { filteredEmployees, currentPage, pageSize } = state;
           const start = (currentPage - 1) * pageSize;
           this.employeesInPage = filteredEmployees.slice(start, start + pageSize);
         });
         window.addEventListener('languageChanged', this.languageChanged);
     }
+
+    disconnectedCallback() {
+        this.destroyed$.next(true);
+        this.destroyed$.unsubscribe();
+        window.removeEventListener('languageChanged', this.languageChanged);
+    }
     
     languageChanged = () => {
         this.requestUpdate(); 
       }
 
-    disconnectedCallback() {
-        this.subscription.unsubscribe();
-        window.removeEventListener('languageChanged', this.languageChanged);
-    }
+
 
     editHandler = (employee) => {
         this.toBeDeletedEmployee = employee;

@@ -4,13 +4,15 @@ import sessionStore from "../../store/session.store";
 import { VIEW_MODE_CARD, VIEW_MODE_TABLE } from "../../utils/constants";
 import { t } from "../../i18n";
 import { materialIconStyles } from "../../style/common";
+import { Subject, takeUntil } from "rxjs";
 
 export class EmployeeList extends LitElement {
 
     static properties = {
         selectedView: {state: true, type: String},
         hasAnyEmployee: {state: true, type: Boolean},
-        hasAnyFilteredEmployee: {state: true, type: Boolean}
+        hasAnyFilteredEmployee: {state: true, type: Boolean},
+        destroyed$: {state: true}
     }
 
     constructor() {
@@ -18,15 +20,16 @@ export class EmployeeList extends LitElement {
         this.selectedView = VIEW_MODE_TABLE;
         this.hasAnyEmployee = false;
         this.hasAnyFilteredEmployee = false;
+        this.destroyed$ = new Subject();
     };
 
     connectedCallback() {
         super.connectedCallback();
-        sessionStore.session$.subscribe((data) => {
+        sessionStore.session$.pipe(takeUntil(this.destroyed$)).subscribe((data) => {
             this.selectedView = data.viewMode;
         })
         window.addEventListener('languageChanged', this.languageChanged);
-        employeeState.employee$.subscribe((data) => {
+        employeeState.employee$.pipe(takeUntil(this.destroyed$)).subscribe((data) => {
             this.hasAnyEmployee = data.employees.length > 0;
             this.hasAnyFilteredEmployee = data.filteredEmployees.length > 0
         });
@@ -34,6 +37,8 @@ export class EmployeeList extends LitElement {
 
     disconnectedCallback() {
         window.removeEventListener('languageChanged', this.languageChanged);
+        this.destroyed$.next(true);
+        this.destroyed$.unsubscribe();
     }
 
     languageChanged = () => {

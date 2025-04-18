@@ -1,15 +1,22 @@
 import { css, html, LitElement } from "lit";
 import employeeState from "../../store/employee-store";
+import { Subject, takeUntil } from "rxjs";
 
 export class CustomPagination extends LitElement {
   static properties = {
-    currentPage: { type: Number },
-    totalPages: { type: Number }
+    currentPage: {type: Number },
+    totalPages: {type: Number },
+    destroyed$: {state: true}
   };
+
+  constructor() {
+    super();
+    this.destroyed$ = new Subject(false);
+  }
 
   connectedCallback() {
     super.connectedCallback();
-    this.subscription = employeeState.employee$.subscribe(state => {
+    employeeState.employee$.pipe(takeUntil(this.destroyed$)).subscribe(state => {
       const total = Math.ceil(state.filteredEmployees.length / state.pageSize);
       this.totalPages = total;
       this.currentPage = state.currentPage;
@@ -17,7 +24,8 @@ export class CustomPagination extends LitElement {
   }
 
   disconnectedCallback() {
-    this.subscription.unsubscribe();
+    this.destroyed$.next(true);
+    this.destroyed$.unsubscribe();
   }
 
   changePage(page) {

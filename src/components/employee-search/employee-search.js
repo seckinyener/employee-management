@@ -13,6 +13,19 @@ export class EmployeeSearch extends LitElement{
         this.debounceTimer = null;
     };
 
+    connectedCallback() {
+        super.connectedCallback();
+        window.addEventListener('languageChanged', this.languageChanged);
+    }
+
+    disconnectedCallback() {
+        window.removeEventListener('languageChanged', this.languageChanged);
+    }
+
+    languageChanged = () => {
+        this.requestUpdate(); 
+    }
+
     debounce(fn, delay = 300) {
         clearTimeout(this.debounceTimer);
         this.debounceTimer = setTimeout(fn, delay);

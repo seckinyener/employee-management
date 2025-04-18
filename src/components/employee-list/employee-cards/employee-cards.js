@@ -1,24 +1,32 @@
 import { css, html, LitElement } from "lit";
 import employeeState from "../../../store/employee-store";
+import { Subject, takeUntil } from "rxjs";
 
 export class EmployeeCards extends LitElement {
 
     static properties = {
-        employees: {state: true}
+        employees: {state: true},
+        destroyed$: {state: true}
     }
 
     constructor() {
         super();
         this.employees = [];
+        this.destroyed$ = new Subject(false);
     }
 
     connectedCallback() {
         super.connectedCallback();
-        this.subscription = employeeState.employee$.subscribe(state => {
+        employeeState.employee$.pipe(takeUntil(this.destroyed$)).subscribe(state => {
             const { filteredEmployees, currentPage, pageSize } = state;
             const start = (currentPage - 1) * pageSize;
             this.employees = filteredEmployees.slice(start, start + pageSize);
         });
+    }
+
+    disconnectedCallback() {
+        this.destroyed$.next(true);
+        this.destroyed$.unsubscribe();
     }
 
     render() {
