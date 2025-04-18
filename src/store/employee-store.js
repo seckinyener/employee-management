@@ -15,13 +15,13 @@ const loadFromStorage = () => {
 
 const employeeSubject = new BehaviorSubject(loadFromStorage());
 
-export const employee$ = employeeSubject.asObservable();
+const employee$ = employeeSubject.asObservable();
 
-export const getState = () => {
+const getState = () => {
     return employeeSubject.getValue();
 }
 
-export const updateStore = (partial) => {
+const updateStore = (partial) => {
     const current = employeeSubject.getValue();
     const nextState = {...current, ...partial};
 
@@ -36,7 +36,7 @@ export const updateStore = (partial) => {
     localStorage.setItem('employeeStore', JSON.stringify(nextState));
 };
 
-export const addEmployee = (employee) => {
+const addEmployee = (employee) => {
   const current = employeeSubject.getValue();
   const existingEmployees = [...current.employees];
   existingEmployees.push(employee);
@@ -46,7 +46,7 @@ export const addEmployee = (employee) => {
   })
 };
 
-export const updateEmployee = (updatedEmployee) => {
+const updateEmployee = (updatedEmployee) => {
   const state = employeeSubject.getValue();
   const updatedEmployees = state.employees.map(emp =>
     emp.id === updatedEmployee.id ? updatedEmployee : emp
@@ -57,7 +57,7 @@ export const updateEmployee = (updatedEmployee) => {
   })
 };
 
-export const removeEmployee = (id) => {
+const removeEmployee = (id) => {
   const employeeState = employeeSubject.getValue();
   const originalEmployeesAfterRemoval = employeeState.employees.filter(emp => emp.id !== id);
 
@@ -73,6 +73,16 @@ export const removeEmployee = (id) => {
   })
 };
 
-export const getAllEmployees = () => {
+const getAllEmployees = () => {
   return employeeSubject.getValue().employees;
+}
+
+export default {
+  employee$,
+  getAllEmployees,
+  removeEmployee,
+  updateEmployee,
+  addEmployee,
+  updateStore,
+  getState
 }

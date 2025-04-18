@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { removeEmployee } from "../../../../store/employee-store";
+import employeeState from "../../../../store/employee-store";
 import { Router } from "@vaadin/router";
 import { t } from "../../../../i18n";
 import { formatDate } from "../../../../utils/util";
@@ -37,7 +37,7 @@ export class EmployeeCardItem extends LitElement {
     }
 
     deleteProceedHandler = () => {
-        removeEmployee(this.employee.id);
+        employeeState.removeEmployee(this.employee.id);
         this.showConfirmationModal = false;
     }
 

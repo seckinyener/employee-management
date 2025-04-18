@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { updateStore, getState, employee$ } from "../../store/employee-store";
+import employeeState from "../../store/employee-store";
 import { session$, updateViewMode } from "../../store/session.store";
 import { VIEW_MODE_CARD, VIEW_MODE_TABLE } from "../../utils/constants";
 import { t } from "../../i18n";
@@ -28,7 +28,7 @@ export class EmployeeList extends LitElement {
             this.selectedView = data.viewMode;
         })
         window.addEventListener('languageChanged', this.languageChanged);
-        employee$.subscribe((data) => {
+        employeeState.employee$.subscribe((data) => {
             this.hasAnyEmployee = data.employees.length > 0;
             this.hasAnyFilteredEmployee = data.filteredEmployees.length > 0
         });
@@ -54,7 +54,7 @@ export class EmployeeList extends LitElement {
     handleSearch(e) {
         const query = e.target.value.trim().toLowerCase();
         this.debounce(() => {
-            const { employees } = getState();
+            const { employees } = employeeState.getState();
         
             const filtered = employees.filter(employee =>
             Object.values(employee).some(value =>
@@ -62,7 +62,7 @@ export class EmployeeList extends LitElement {
             )
             );
         
-            updateStore({
+            employeeState.updateStore({
             searchQuery: query,
             currentPage: 1,
             filteredEmployees: filtered

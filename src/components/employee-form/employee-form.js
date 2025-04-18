@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { Router } from "@vaadin/router";
-import { addEmployee, updateEmployee, getAllEmployees } from "../../store/employee-store";
+import employeeStore from "../../store/employee-store";
 import { t } from "../../i18n";
 
 export class EmployeeForm extends LitElement{
@@ -141,7 +141,7 @@ export class EmployeeForm extends LitElement{
     }
 
     validateIfUserExist = () => {
-        const employeesFromState = getAllEmployees();
+        const employeesFromState = employeeStore.getAllEmployees();
         let employeeRecords = [];
         if(this.employeeDetails) {
             employeeRecords = employeesFromState.filter(item => item.id !== this.employeeDetails.id);
@@ -188,9 +188,9 @@ export class EmployeeForm extends LitElement{
             };
     
             if(this.employeeDetails) {
-                updateEmployee(emp)
+                employeeStore.updateEmployee(emp)
             } else {
-                addEmployee(emp);
+                employeeStore.addEmployee(emp);
             }
     
             Router.go("/");

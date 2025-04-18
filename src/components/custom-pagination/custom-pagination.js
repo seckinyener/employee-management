@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { employee$, updateStore } from "../../store/employee-store";
+import employeeState from "../../store/employee-store";
 
 export class CustomPagination extends LitElement {
   static properties = {
@@ -9,7 +9,7 @@ export class CustomPagination extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.subscription = employee$.subscribe(state => {
+    this.subscription = employeeState.employee$.subscribe(state => {
       const total = Math.ceil(state.filteredEmployees.length / state.pageSize);
       this.totalPages = total;
       this.currentPage = state.currentPage;
@@ -22,7 +22,7 @@ export class CustomPagination extends LitElement {
 
   changePage(page) {
     if (page >= 1 && page <= this.totalPages) {
-      updateStore({ currentPage: page });
+      employeeState.updateStore({ currentPage: page });
     }
   }
 
