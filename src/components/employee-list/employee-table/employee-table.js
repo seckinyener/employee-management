@@ -132,19 +132,18 @@ export class EmployeeTable extends LitElement {
                 <tr>
                     <td><input type="checkbox" .checked=${this.selectedEmployees.has(emp.id)} @click=${() => this.selectRowHandler(emp.id)}/></td>
                     <td title=${emp.firstName}><strong>${emp.firstName}</strong></td>
-                    <td><strong>${emp.lastName}</strong></td>
-                    <td>${formatDate(emp.dateOfEmployment)}</td>
-                    <td>${formatDate(emp.dateOfBirth)}</td>
-                    <td>${emp.phone}</td>
-                    <td>${emp.email}</td>
-                    <td>${t(emp.department)}</td>
-                    <td>${t(emp.position)}</td>
+                    <td title=${emp.lastName}><strong>${emp.lastName}</strong></td>
+                    <td title=${formatDate(emp.dateOfEmployment)}>${formatDate(emp.dateOfEmployment)}</td>
+                    <td title=${formatDate(emp.dateOfBirth)}>${formatDate(emp.dateOfBirth)}</td>
+                    <td title=${emp.phone}>${emp.phone}</td>
+                    <td title=${emp.email}>${emp.email}</td>
+                    <td title=${t(emp.department)}>${t(emp.department)}</td>
+                    <td title=${t(emp.position)}>${t(emp.position)}</td>
                     <td>
                         <div class="action-buttons">
                             <span class="material-icons" @click=${() => this.editHandler(emp)}>edit</span>
                             <span class="material-icons" @click=${() => this.deleteHandler(emp)}>delete</span>
                         </div>
-
                     </td>
                 </tr>
             `)}

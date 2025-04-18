@@ -83,11 +83,41 @@ export class EmployeeForm extends LitElement{
     }
 
     validatePhone = (errors) => {
+        const formattedPhone = this.formatPhone(this.phone);
+
+        const digitCount = formattedPhone.replace(/\D/g, '').length;
+
         if(!this.phone) {
             errors['phone'] = "required";
-        } else if(!/^(\+\d{1,2}\s?)?(\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{4})$/.test(this.phone)) {
+        } else if (!/^\+\(?\d{1,3}\)?[\s\-]?\d{3}[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/.test(formattedPhone) || digitCount !== 12) {
             errors['phone'] = "invalidPhone";
         }
+    }
+
+    formatPhone(input) {
+        const digits = input.replace(/[^\d+]/g, '');
+        let cleaned = digits.startsWith('+') ? digits : '+' + digits;
+      
+        const match = cleaned.match(/^\+(\d{1,2})(\d*)$/);
+        if (!match) return cleaned;
+      
+        const country = match[1];
+        const rest = match[2];
+      
+        const part1 = rest.slice(0, 3);
+        const part2 = rest.slice(3, 6);
+        const part3 = rest.slice(6, 8);
+        const part4 = rest.slice(8);
+      
+        let formatted = `+(${country})`;
+        if (part1) formatted += ` ${part1}`;
+        if (part2) formatted += ` ${part2}`;
+        if (part3) formatted += ` ${part3}`;
+        if (part4) formatted += ` ${part4}`;
+
+        console.log('formatted trim -> ', formatted.trim());
+      
+        return formatted.trim();
     }
 
     validateEmail = (errors) => {
@@ -191,8 +221,11 @@ export class EmployeeForm extends LitElement{
                             ${this.errors.dateOfBirth ? html`<div class="error">${t(this.errors.dateOfBirth)}</div>` : ''}
                         </label>
                         <label>${t('phone')}:
-                            <input type="tel" .value=${this.phone} @input=${(e) => this.phone = e.target.value.trim()} />
-                            ${this.errors.phone ? html`<div class="error">${t(this.errors.phone)}</div>` : ''}
+  <input type="tel" 
+         .value=${this.phone} 
+         @input=${(e) => this.phone = this.formatPhone(e.target.value)} />
+  ${this.errors.phone ? html`<div class="error">${t(this.errors.phone)}</div>` : ''}
+</label>
                         </label>
                         <label>${t('email')}:
                             <input type="text" .value=${this.email} @input=${(e) => this.email = e.target.value.trim()} />
