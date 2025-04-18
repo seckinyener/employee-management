@@ -30,7 +30,8 @@ export const translations = {
       junior: 'Junior',
       medior: 'Medior',
       senior: 'Senior',
-      pleaseSelect: 'Please Select'
+      pleaseSelect: 'Please Select',
+      updateUser: 'You are editing {{name}}.'
     },
     tr: {
       firstName: 'İsim',
@@ -63,7 +64,8 @@ export const translations = {
       junior: 'Uzman Yardımcısı',
       medior: 'Uzman',
       senior: 'Kıdemli Uzman',
-      pleaseSelect: 'Lütfen Seçiniz'
+      pleaseSelect: 'Lütfen Seçiniz',
+      updateUser: 'Şu anda {{ name }} adlı kullanıcıyı güncelliyorsunuz.'
     }
 };
   
@@ -72,14 +74,19 @@ export function getLang() {
 }
 
 export function setLang(lang) {
-  //localStorage.setItem('lang', lang);
   document.documentElement.lang = lang;
   window.dispatchEvent(new CustomEvent('languageChanged'));
 }
 
-export function t(key) {
+export function t(key, params = {}) {
   const lang = getLang();
-  return translations[lang][key] || key;
+  const translation = translations[lang][key] || key;
+
+  if (!params || typeof translation !== 'string') return translation;
+
+  return translation.replace(/\{\{(.*?)\}\}/g, (_, param) => {
+    return params[param.trim()] ?? `{{${param}}}`;
+  });
 }
 
 
