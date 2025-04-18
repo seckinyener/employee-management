@@ -11,3 +11,4 @@ import './components/employee-list/employee-cards/employee-card-item/employee-ca
 import './components/confirmation-modal/confirmation-modal';
 import './components/custom-pagination/custom-pagination';
 import './components/app-bar/app-bar';
+import './components/employee-search/employee-search';

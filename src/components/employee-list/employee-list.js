@@ -9,7 +9,6 @@ export class EmployeeList extends LitElement {
 
     static properties = {
         selectedView: {state: true, type: String},
-        debounceTimer: {state: true},
         hasAnyEmployee: {state: true, type: Boolean},
         hasAnyFilteredEmployee: {state: true, type: Boolean}
     }
@@ -17,7 +16,6 @@ export class EmployeeList extends LitElement {
     constructor() {
         super();
         this.selectedView = VIEW_MODE_TABLE;
-        this.debounceTimer = null;
         this.hasAnyEmployee = false;
         this.hasAnyFilteredEmployee = false;
     };
@@ -46,30 +44,6 @@ export class EmployeeList extends LitElement {
         updateViewMode(selectedView);
     }
 
-    debounce(fn, delay = 300) {
-        clearTimeout(this.debounceTimer);
-        this.debounceTimer = setTimeout(fn, delay);
-    }
-      
-    handleSearch(e) {
-        const query = e.target.value.trim().toLowerCase();
-        this.debounce(() => {
-            const { employees } = employeeState.getState();
-        
-            const filtered = employees.filter(employee =>
-            Object.values(employee).some(value =>
-                typeof value === 'string' && value.toLowerCase().includes(query)
-            )
-            );
-        
-            employeeState.updateStore({
-            searchQuery: query,
-            currentPage: 1,
-            filteredEmployees: filtered
-            });
-        });
-    }
-
     render() {
         return html`
         <div>
@@ -78,9 +52,7 @@ export class EmployeeList extends LitElement {
                     <h2>${t('employeeList')}</h2>
                 </div>
                 <div class="employee-list-actions">
-                    <div class="search-container">
-                        <input class="search-input" placeholder="${t('search')}..." @input=${this.handleSearch} />
-                    </div>
+                    <employee-search></employee-search>
                     <div class="employee-list-action-buttons">
                         <span class="material-icons ${this.selectedView === VIEW_MODE_TABLE ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_TABLE)}>menu</span>
                         <span class="material-icons ${this.selectedView === VIEW_MODE_CARD ? 'active' : 'inactive'}" @click=${() => this.changeTheView(VIEW_MODE_CARD)}>apps</span>
@@ -112,7 +84,7 @@ export class EmployeeList extends LitElement {
             .employee-list-actions {
                 display: flex;
                 align-items: center;
-                gap: 2rem;
+                gap: 4rem;
             }
 
             .active {
@@ -121,28 +93,6 @@ export class EmployeeList extends LitElement {
 
             .inactive {
                 color: grey
-            }
-
-            .search-container {
-                display: flex;
-                justify-content: center;
-                margin: 1.5rem 0;
-            }
-
-            .search-input {
-                width: 100%;
-                max-width: 400px;
-                padding: 0.75rem 1rem;
-                border: 1px solid #ccc;
-                border-radius: 16px; /* Tam yuvarlak kenarlar */
-                outline: none;
-                transition: border-color 0.2s ease, box-shadow 0.2s ease;
-                background-color: #fff;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            }
-
-            .search-input:focus {
-                box-shadow: 0 0 0 1px var(--color-orange);
             }
 
             .no-records-warning {
