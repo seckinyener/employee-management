@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { employee$, removeEmployee } from "../../../store/employee-store";
+import { employee$, getAllEmployees, removeEmployee } from "../../../store/employee-store";
 import { Router } from "@vaadin/router";
 import { t } from "../../../i18n";
 import { materialIconStyles } from "../../../style/common";
@@ -10,7 +10,8 @@ export class EmployeeTable extends LitElement {
         employeesInPage : {type: Array},
         showConfirmationModal: {state: true, type: Boolean},
         toBeDeletedEmployee: {type: Object},
-        actionType: {state: true, type: String}
+        actionType: {state: true, type: String},
+        selectedEmployees: {state: true}
     }
 
     constructor() {
@@ -18,6 +19,7 @@ export class EmployeeTable extends LitElement {
         this.employeesInPage = [];
         this.toBeDeletedEmployee = {};
         this.actionType = 'delete';
+        this.selectedEmployees = new Set();
     }
 
     connectedCallback() {
@@ -75,11 +77,31 @@ export class EmployeeTable extends LitElement {
         }
     }
 
+    selectAllHandler = (event) => {
+        if (event.target.checked) {
+            const employeeIds = getAllEmployees().map(item => item.id);
+            this.selectedEmployees = new Set(employeeIds);
+        } else {
+            this.selectedEmployees = new Set();
+        }
+    }
+
+    selectRowHandler = (employeeId) => {
+        const existingSelectedRows = new Set(this.selectedEmployees);
+        if(existingSelectedRows.has(employeeId)) {
+            existingSelectedRows.delete(employeeId)
+        } else {
+            existingSelectedRows.add(employeeId);
+        }
+        this.selectedEmployees = existingSelectedRows;
+    }
+
     render() {
         return html`
         <div class="table-container">
                     <table class="employee-table">
             <colgroup>
+                <col style="width: 40px" />
                 <col style="width: 120px" />
                 <col style="width: 120px" />
                 <col style="width: 140px" />
@@ -92,6 +114,7 @@ export class EmployeeTable extends LitElement {
             </colgroup>
             <thead>
             <tr>
+                <th><input type="checkbox" @change=${this.selectAllHandler} /></th> 
                 <th>${t('firstName')}</th>
                 <th>${t('lastName')}</th>
                 <th>${t('dateOfEmployment')}</th>
@@ -106,21 +129,22 @@ export class EmployeeTable extends LitElement {
             <tbody>
             ${this.employeesInPage.map(emp => html`
                 <tr>
-                <td><strong>${emp.firstName}</strong></td>
-                <td><strong>${emp.lastName}</strong></td>
-                <td>${emp.dateOfEmployment}</td>
-                <td>${emp.dateOfBirth}</td>
-                <td>${emp.phone}</td>
-                <td>${emp.email}</td>
-                <td>${t(emp.department)}</td>
-                <td>${t(emp.position)}</td>
-                <td>
-                    <div class="action-buttons">
-                        <span class="material-icons" @click=${() => this.editHandler(emp)}>edit</span>
-                        <span class="material-icons" @click=${() => this.deleteHandler(emp)}>delete</span>
-                    </div>
+                    <td><input type="checkbox" .checked=${this.selectedEmployees.has(emp.id)} @click=${() => this.selectRowHandler(emp.id)}/></td>
+                    <td><strong>${emp.firstName}</strong></td>
+                    <td><strong>${emp.lastName}</strong></td>
+                    <td>${emp.dateOfEmployment}</td>
+                    <td>${emp.dateOfBirth}</td>
+                    <td>${emp.phone}</td>
+                    <td>${emp.email}</td>
+                    <td>${t(emp.department)}</td>
+                    <td>${t(emp.position)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <span class="material-icons" @click=${() => this.editHandler(emp)}>edit</span>
+                            <span class="material-icons" @click=${() => this.deleteHandler(emp)}>delete</span>
+                        </div>
 
-                </td>
+                    </td>
                 </tr>
             `)}
             </tbody>
