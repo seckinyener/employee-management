@@ -1,4 +1,5 @@
 import { css, html, LitElement } from "lit";
+import { t } from "../../i18n";
 
 export class ConfirmationModal extends LitElement {
 
@@ -34,11 +35,13 @@ export class ConfirmationModal extends LitElement {
         <div class="modal-overlay" @click=${this._backgroundClick}>
             <div class="modal" @click=${(e) => e.stopPropagation()}>
             <div class="modal-header">
-                Are you sure?
+                ${t('areYouSure')}
                 <button class="close-btn" @click=${this._cancel}>X</button>
             </div>
+
             <div>
-                Selected employee record (<strong>${this.employeeName}</strong>) will be ${this.mode === 'delete' ? html`<span>deleted</span>` : html`<span>edited</span>`}.
+              ${this.mode === 'delete' ? html`<p .innerHTML=${t('deleteConfirmation', {name: this.employeeName})}></p>` : html`<p .innerHTML=${t('updateConfirmation', {name: this.employeeName})}></p>`}
+                
             </div>
             <div class="modal-buttons">
                 <button class="proceed" @click=${this._proceed}>Proceed</button>
