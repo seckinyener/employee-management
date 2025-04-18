@@ -3,6 +3,7 @@ import { employee$, getAllEmployees, removeEmployee } from "../../../store/emplo
 import { Router } from "@vaadin/router";
 import { t } from "../../../i18n";
 import { materialIconStyles } from "../../../style/common";
+import { formatDate } from "../../../utils/util";
 
 export class EmployeeTable extends LitElement {
 
@@ -132,8 +133,8 @@ export class EmployeeTable extends LitElement {
                     <td><input type="checkbox" .checked=${this.selectedEmployees.has(emp.id)} @click=${() => this.selectRowHandler(emp.id)}/></td>
                     <td><strong>${emp.firstName}</strong></td>
                     <td><strong>${emp.lastName}</strong></td>
-                    <td>${emp.dateOfEmployment}</td>
-                    <td>${emp.dateOfBirth}</td>
+                    <td>${formatDate(emp.dateOfEmployment)}</td>
+                    <td>${formatDate(emp.dateOfBirth)}</td>
                     <td>${emp.phone}</td>
                     <td>${emp.email}</td>
                     <td>${t(emp.department)}</td>
