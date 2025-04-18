@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { employee$, getAllEmployees, removeEmployee } from "../../../store/employee-store";
+import employeeState from "../../../store/employee-store";
 import { Router } from "@vaadin/router";
 import { t } from "../../../i18n";
 import { materialIconStyles } from "../../../style/common";
@@ -25,7 +25,7 @@ export class EmployeeTable extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        this.subscription = employee$.subscribe(state => {
+        this.subscription = employeeState.employee$.subscribe(state => {
           const { filteredEmployees, currentPage, pageSize } = state;
           const start = (currentPage - 1) * pageSize;
           this.employeesInPage = filteredEmployees.slice(start, start + pageSize);
@@ -55,7 +55,7 @@ export class EmployeeTable extends LitElement {
     }
 
     deleteProceedHandler = () => {
-        removeEmployee(this.toBeDeletedEmployee.id);
+        employeeState.removeEmployee(this.toBeDeletedEmployee.id);
         this.showConfirmationModal = false;
         this.toBeDeletedEmployee = {};
     }
@@ -80,7 +80,7 @@ export class EmployeeTable extends LitElement {
 
     selectAllHandler = (event) => {
         if (event.target.checked) {
-            const employeeIds = getAllEmployees().map(item => item.id);
+            const employeeIds = employeeState.getAllEmployees().map(item => item.id);
             this.selectedEmployees = new Set(employeeIds);
         } else {
             this.selectedEmployees = new Set();
@@ -156,7 +156,6 @@ export class EmployeeTable extends LitElement {
         <confirmation-modal 
             .employeeName=${this.toBeDeletedEmployee.firstName + " " + this.toBeDeletedEmployee.lastName}
             .isOpen=${this.showConfirmationModal}
-            .employeeId=${this.toBeDeletedEmployee.id}
             .mode=${this.actionType}
             @proceed=${this.confirmationProceedHandler}
             @cancel=${this.confirmationCancelHandler}

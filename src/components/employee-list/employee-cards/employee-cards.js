@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { employee$ } from "../../../store/employee-store";
+import employeeState from "../../../store/employee-store";
 
 export class EmployeeCards extends LitElement {
 
@@ -12,18 +12,9 @@ export class EmployeeCards extends LitElement {
         this.employees = [];
     }
 
-    /*connectedCallback() {
-        super.connectedCallback();
-        this.subscription = employee$.subscribe(state => {
-          const { filteredEmployees, currentPage, pageSize } = state;
-          const start = (currentPage - 1) * pageSize;
-          this.employeesInPage = filteredEmployees.slice(start, start + pageSize);
-        });
-    }*/
-
     connectedCallback() {
         super.connectedCallback();
-        this.subscription = employee$.subscribe(state => {
+        this.subscription = employeeState.employee$.subscribe(state => {
             const { filteredEmployees, currentPage, pageSize } = state;
             const start = (currentPage - 1) * pageSize;
             this.employees = filteredEmployees.slice(start, start + pageSize);

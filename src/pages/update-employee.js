@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { employee$ } from "../store/employee-store";
+import employeeState from "../store/employee-store";
 import router from '../router.js';
 import { t } from "../i18n.js";
 
@@ -12,7 +12,7 @@ export class UpdateEmployee extends LitElement {
     connectedCallback() {
         super.connectedCallback();
         const employeeId = Number(router.location.params.id);
-        employee$.subscribe((data) => {
+        employeeState.employee$.subscribe((data) => {
             this._employeeDetails = this.findEmployeeById(data.employees, employeeId);
         })
         window.addEventListener('languageChanged', this.languageChanged);

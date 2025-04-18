@@ -1,41 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
 
-const dummyEmployees = [
-    {
-        id: 1,
-        firstName: "string",
-        lastName: "string",
-        dateOfEmployment: "string",
-        dateOfBirth: "string",
-        phone: "string",
-        email: "string",
-        department: "string",
-        position: "string"
-      },
-      {
-        id: 2,
-        firstName: "seckin",
-        lastName: "string",
-        dateOfEmployment: "string",
-        dateOfBirth: "string",
-        phone: "string",
-        email: "string",
-        department: "string",
-        position: "string"
-      },
-      {
-        id: 3,
-        firstName: "string",
-        lastName: "string",
-        dateOfEmployment: "string",
-        dateOfBirth: "string",
-        phone: "string",
-        email: "string",
-        department: "string",
-        position: "string"
-      }
-]
-
 const initialState = {
     employees: [],
     filteredEmployees: [],
@@ -51,13 +15,13 @@ const loadFromStorage = () => {
 
 const employeeSubject = new BehaviorSubject(loadFromStorage());
 
-export const employee$ = employeeSubject.asObservable();
+const employee$ = employeeSubject.asObservable();
 
-export const getState = () => {
+const getState = () => {
     return employeeSubject.getValue();
 }
 
-export const updateStore = (partial) => {
+const updateStore = (partial) => {
     const current = employeeSubject.getValue();
     const nextState = {...current, ...partial};
 
@@ -72,7 +36,7 @@ export const updateStore = (partial) => {
     localStorage.setItem('employeeStore', JSON.stringify(nextState));
 };
 
-export const addEmployee = (employee) => {
+const addEmployee = (employee) => {
   const current = employeeSubject.getValue();
   const existingEmployees = [...current.employees];
   existingEmployees.push(employee);
@@ -82,7 +46,7 @@ export const addEmployee = (employee) => {
   })
 };
 
-export const updateEmployee = (updatedEmployee) => {
+const updateEmployee = (updatedEmployee) => {
   const state = employeeSubject.getValue();
   const updatedEmployees = state.employees.map(emp =>
     emp.id === updatedEmployee.id ? updatedEmployee : emp
@@ -93,15 +57,32 @@ export const updateEmployee = (updatedEmployee) => {
   })
 };
 
-export const removeEmployee = (id) => {
-  const current = employeeSubject.getValue();
-  const originalEmployeesAfterRemoval = current.employees.filter(emp => emp.id !== id);
+const removeEmployee = (id) => {
+  const employeeState = employeeSubject.getValue();
+  const originalEmployeesAfterRemoval = employeeState.employees.filter(emp => emp.id !== id);
+
+  const newPageSize = (employeeState.currentPage-1)*2;
+  let newCurrentPage = employeeState.currentPage
+  if(originalEmployeesAfterRemoval.length === newPageSize) {
+    newCurrentPage--
+  }
 
   updateStore({
     employees: originalEmployeesAfterRemoval,
+    currentPage: newCurrentPage
   })
 };
 
-export const getAllEmployees = () => {
+const getAllEmployees = () => {
   return employeeSubject.getValue().employees;
+}
+
+export default {
+  employee$,
+  getAllEmployees,
+  removeEmployee,
+  updateEmployee,
+  addEmployee,
+  updateStore,
+  getState
 }

@@ -34,7 +34,9 @@ export const translations = {
       updateUser: 'You are editing {{name}}.',
       areYouSure: 'Are you sure?',
       updateConfirmation: 'Selected employee record <strong>{{name}}</strong> will be updated.',
-      deleteConfirmation: 'Selected employee record <strong>{{name}}</strong> will be deleted.'
+      deleteConfirmation: 'Selected employee record <strong>{{name}}</strong> will be deleted.',
+      noRecords: 'There is no employee record. Please create a record.',
+      noRecordsAfterSearch: 'No records exists for this search text.'
     },
     tr: {
       firstName: 'İsim',
@@ -71,7 +73,9 @@ export const translations = {
       updateUser: 'Şu anda {{ name }} adlı kullanıcıyı güncelliyorsunuz.',
       areYouSure: 'Emin misiniz?',
       updateConfirmation: 'Seçilen kullanıcı <strong>{{name}}</strong> güncellenecek.',
-      deleteConfirmation: 'Seçilen kullanıcı <strong>{{name}}</strong> silinecek.'
+      deleteConfirmation: 'Seçilen kullanıcı <strong>{{name}}</strong> silinecek.',
+      noRecords: 'Herhangi bir çalışan kaydı bulunmamaktadır. Lütfen yeni bir kayıt yaratınız.',
+      noRecordsAfterSearch: 'Arama kriterine uygun kayıt bulunamadı.'
     }
 };
   

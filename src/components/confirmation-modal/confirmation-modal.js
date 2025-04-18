@@ -5,7 +5,6 @@ export class ConfirmationModal extends LitElement {
 
     static properties = {
         employeeName: {type: String},
-        employeeId: {type: Number},
         isOpen: {type: Boolean},
         mode: {type: String}
     }
@@ -15,9 +14,7 @@ export class ConfirmationModal extends LitElement {
     }
 
     _cancel() {
-      this.dispatchEvent(new CustomEvent('cancel', { bubbles: true, composed: true, detail: {
-          value: this.employeeId
-      }}));
+      this.dispatchEvent(new CustomEvent('cancel'));
     }
     
     _proceed() {
@@ -39,7 +36,7 @@ export class ConfirmationModal extends LitElement {
                 <button class="close-btn" @click=${this._cancel}>X</button>
             </div>
 
-            <div>
+            <div class="modal-message">
               ${this.mode === 'delete' ? html`<p .innerHTML=${t('deleteConfirmation', {name: this.employeeName})}></p>` : html`<p .innerHTML=${t('updateConfirmation', {name: this.employeeName})}></p>`}
                 
             </div>

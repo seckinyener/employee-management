@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { Router } from "@vaadin/router";
-import { addEmployee, updateEmployee, getAllEmployees } from "../../store/employee-store";
+import employeeStore from "../../store/employee-store";
 import { t } from "../../i18n";
 
 export class EmployeeForm extends LitElement{
@@ -115,8 +115,6 @@ export class EmployeeForm extends LitElement{
         if (part3) formatted += ` ${part3}`;
         if (part4) formatted += ` ${part4}`;
 
-        console.log('formatted trim -> ', formatted.trim());
-      
         return formatted.trim();
     }
 
@@ -141,7 +139,7 @@ export class EmployeeForm extends LitElement{
     }
 
     validateIfUserExist = () => {
-        const employeesFromState = getAllEmployees();
+        const employeesFromState = employeeStore.getAllEmployees();
         let employeeRecords = [];
         if(this.employeeDetails) {
             employeeRecords = employeesFromState.filter(item => item.id !== this.employeeDetails.id);
@@ -188,9 +186,9 @@ export class EmployeeForm extends LitElement{
             };
     
             if(this.employeeDetails) {
-                updateEmployee(emp)
+                employeeStore.updateEmployee(emp)
             } else {
-                addEmployee(emp);
+                employeeStore.addEmployee(emp);
             }
     
             Router.go("/");
@@ -221,11 +219,9 @@ export class EmployeeForm extends LitElement{
                             ${this.errors.dateOfBirth ? html`<div class="error">${t(this.errors.dateOfBirth)}</div>` : ''}
                         </label>
                         <label>${t('phone')}:
-  <input type="tel" 
-         .value=${this.phone} 
-         @input=${(e) => this.phone = this.formatPhone(e.target.value)} />
-  ${this.errors.phone ? html`<div class="error">${t(this.errors.phone)}</div>` : ''}
-</label>
+                            <input type="tel" .value=${this.phone} @input=${(e) => this.phone = this.formatPhone(e.target.value)} />
+                            ${this.errors.phone ? html`<div class="error">${t(this.errors.phone)}</div>` : ''}
+                        </label>
                         </label>
                         <label>${t('email')}:
                             <input type="text" .value=${this.email} @input=${(e) => this.email = e.target.value.trim()} />
