@@ -31,7 +31,10 @@ export const translations = {
       medior: 'Medior',
       senior: 'Senior',
       pleaseSelect: 'Please Select',
-      updateUser: 'You are editing {{name}}.'
+      updateUser: 'You are editing {{name}}.',
+      areYouSure: 'Are you sure?',
+      updateConfirmation: 'Selected employee record <strong>{{name}}</strong> will be updated.',
+      deleteConfirmation: 'Selected employee record <strong>{{name}}</strong> will be deleted.'
     },
     tr: {
       firstName: 'İsim',
@@ -65,7 +68,10 @@ export const translations = {
       medior: 'Uzman',
       senior: 'Kıdemli Uzman',
       pleaseSelect: 'Lütfen Seçiniz',
-      updateUser: 'Şu anda {{ name }} adlı kullanıcıyı güncelliyorsunuz.'
+      updateUser: 'Şu anda {{ name }} adlı kullanıcıyı güncelliyorsunuz.',
+      areYouSure: 'Emin misiniz?',
+      updateConfirmation: 'Seçilen kullanıcı <strong>{{name}}</strong> güncellenecek.',
+      deleteConfirmation: 'Seçilen kullanıcı <strong>{{name}}</strong> silinecek.'
     }
 };
   
