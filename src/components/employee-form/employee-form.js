@@ -115,8 +115,6 @@ export class EmployeeForm extends LitElement{
         if (part3) formatted += ` ${part3}`;
         if (part4) formatted += ` ${part4}`;
 
-        console.log('formatted trim -> ', formatted.trim());
-      
         return formatted.trim();
     }
 
@@ -221,11 +219,9 @@ export class EmployeeForm extends LitElement{
                             ${this.errors.dateOfBirth ? html`<div class="error">${t(this.errors.dateOfBirth)}</div>` : ''}
                         </label>
                         <label>${t('phone')}:
-  <input type="tel" 
-         .value=${this.phone} 
-         @input=${(e) => this.phone = this.formatPhone(e.target.value)} />
-  ${this.errors.phone ? html`<div class="error">${t(this.errors.phone)}</div>` : ''}
-</label>
+                            <input type="tel" .value=${this.phone} @input=${(e) => this.phone = this.formatPhone(e.target.value)} />
+                            ${this.errors.phone ? html`<div class="error">${t(this.errors.phone)}</div>` : ''}
+                        </label>
                         </label>
                         <label>${t('email')}:
                             <input type="text" .value=${this.email} @input=${(e) => this.email = e.target.value.trim()} />

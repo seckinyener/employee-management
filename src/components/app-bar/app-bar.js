@@ -60,7 +60,7 @@ export class AppBar extends LitElement {
                             <span class="material-icons">add</span>
                             <span>${t('addNew')}</span>
                         </div>
-                        <div>
+                        <div class="languages">
                             <span class=${this.selectedLang === 'tr' ? 'active-lang' : 'passive-lang'} @click=${() => this.setLang('tr')}><img src="/assets/tr.png"></img></span>
                             <span class=${this.selectedLang === 'en' ? 'active-lang' : 'passive-lang'} @click=${() => this.setLang('en')}><img src="/assets/gb-eng.png"></img></span>
                         </div>
@@ -113,6 +113,23 @@ export class AppBar extends LitElement {
 
         .passive-lang {
             opacity: .5;
+        }
+
+        .languages {
+            cursor: pointer;
+            display: flex;
+            gap: .5rem;
+        }
+
+        .languages img {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 4px;
+        }
+
+        .languages img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         }
         `
     ]
