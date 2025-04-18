@@ -116,29 +116,29 @@ export class EmployeeTable extends LitElement {
             <thead>
             <tr>
                 <th><input type="checkbox" @change=${this.selectAllHandler} /></th> 
-                <th>${t('firstName')}</th>
-                <th>${t('lastName')}</th>
-                <th>${t('dateOfEmployment')}</th>
-                <th>${t('dateOfBirth')}</th>
-                <th>${t('phone')}</th>
-                <th>${t('email')}</th>
-                <th>${t('department')}</th>
-                <th>${t('position')}</th>
-                <th>${t('actions')}</th>
+                <th class="text-ellipsis">${t('firstName')}</th>
+                <th class="text-ellipsis">${t('lastName')}</th>
+                <th class="text-ellipsis">${t('dateOfEmployment')}</th>
+                <th class="text-ellipsis">${t('dateOfBirth')}</th>
+                <th class="text-ellipsis">${t('phone')}</th>
+                <th class="text-ellipsis">${t('email')}</th>
+                <th class="text-ellipsis">${t('department')}</th>
+                <th class="text-ellipsis">${t('position')}</th>
+                <th class="text-ellipsis">${t('actions')}</th>
             </tr>
             </thead>
             <tbody>
             ${this.employeesInPage.map(emp => html`
                 <tr>
                     <td><input type="checkbox" .checked=${this.selectedEmployees.has(emp.id)} @click=${() => this.selectRowHandler(emp.id)}/></td>
-                    <td title=${emp.firstName}><strong>${emp.firstName}</strong></td>
-                    <td title=${emp.lastName}><strong>${emp.lastName}</strong></td>
-                    <td title=${formatDate(emp.dateOfEmployment)}>${formatDate(emp.dateOfEmployment)}</td>
-                    <td title=${formatDate(emp.dateOfBirth)}>${formatDate(emp.dateOfBirth)}</td>
-                    <td title=${emp.phone}>${emp.phone}</td>
-                    <td title=${emp.email}>${emp.email}</td>
-                    <td title=${t(emp.department)}>${t(emp.department)}</td>
-                    <td title=${t(emp.position)}>${t(emp.position)}</td>
+                    <td class="text-ellipsis" title=${emp.firstName}><strong>${emp.firstName}</strong></td>
+                    <td class="text-ellipsis" title=${emp.lastName}><strong>${emp.lastName}</strong></td>
+                    <td class="text-ellipsis" title=${formatDate(emp.dateOfEmployment)}>${formatDate(emp.dateOfEmployment)}</td>
+                    <td class="text-ellipsis" title=${formatDate(emp.dateOfBirth)}>${formatDate(emp.dateOfBirth)}</td>
+                    <td class="text-ellipsis" title=${emp.phone}>${emp.phone}</td>
+                    <td class="text-ellipsis" title=${emp.email}>${emp.email}</td>
+                    <td class="text-ellipsis" title=${t(emp.department)}>${t(emp.department)}</td>
+                    <td class="text-ellipsis" title=${t(emp.position)}>${t(emp.position)}</td>
                     <td>
                         <div class="action-buttons">
                             <span class="material-icons" @click=${() => this.editHandler(emp)}>edit</span>
@@ -187,13 +187,17 @@ export class EmployeeTable extends LitElement {
                 background-color: #f5f5f5;
             }
 
+            .text-ellipsis {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: center;
+            }
+
             th, td {
                 padding: 12px 16px;
                 text-align: left;
                 vertical-align: middle;
                 white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
 
             tr {
