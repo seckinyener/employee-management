@@ -1,5 +1,5 @@
 import { css, html, LitElement } from "lit";
-import { updateStore, getState } from "../../store/employee-store";
+import { updateStore, getState, employee$ } from "../../store/employee-store";
 import { session$, updateViewMode } from "../../store/session.store";
 import { VIEW_MODE_CARD, VIEW_MODE_TABLE } from "../../utils/constants";
 import { t } from "../../i18n";
@@ -9,13 +9,15 @@ export class EmployeeList extends LitElement {
 
     static properties = {
         selectedView: {state: true, type: String},
-        debounceTimer: {state: true}
+        debounceTimer: {state: true},
+        hasAnyEmployee: {state: true, type: Boolean}
     }
 
     constructor() {
         super();
         this.selectedView = VIEW_MODE_TABLE;
         this.debounceTimer = null;
+        this.hasAnyEmployee = false;
     };
 
     connectedCallback() {
@@ -24,6 +26,9 @@ export class EmployeeList extends LitElement {
             this.selectedView = data.viewMode;
         })
         window.addEventListener('languageChanged', this.languageChanged);
+        employee$.subscribe((data) => {
+            this.hasAnyEmployee = data.employees.length > 0
+        });
     }
 
     disconnectedCallback() {
@@ -79,9 +84,10 @@ export class EmployeeList extends LitElement {
                     </div>
                 </div>
             </div>
-            <div>
+            ${this.hasAnyEmployee ? html` <div>
                 ${this.selectedView === 'Table' ? html `<employee-table></employee-table` : html `<employee-cards></employee-cards`}
-            </div>
+            </div>` : html `<div class="no-records-warning">There is no employee record. Please create a record.</div>`}
+
         </div>
         `
     }
@@ -134,6 +140,15 @@ export class EmployeeList extends LitElement {
 
             .search-input:focus {
                 box-shadow: 0 0 0 1px var(--color-orange);
+            }
+
+            .no-records-warning {
+                border: 1px solid;
+                padding: 1rem;
+                background: white;
+                border-radius: 16px;
+                border-color: var(--color-orange);
+                text-align: center;
             }
 
         `
