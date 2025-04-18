@@ -156,7 +156,6 @@ export class EmployeeTable extends LitElement {
         <confirmation-modal 
             .employeeName=${this.toBeDeletedEmployee.firstName + " " + this.toBeDeletedEmployee.lastName}
             .isOpen=${this.showConfirmationModal}
-            .employeeId=${this.toBeDeletedEmployee.id}
             .mode=${this.actionType}
             @proceed=${this.confirmationProceedHandler}
             @cancel=${this.confirmationCancelHandler}

@@ -1,41 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
 
-const dummyEmployees = [
-    {
-        id: 1,
-        firstName: "string",
-        lastName: "string",
-        dateOfEmployment: "string",
-        dateOfBirth: "string",
-        phone: "string",
-        email: "string",
-        department: "string",
-        position: "string"
-      },
-      {
-        id: 2,
-        firstName: "seckin",
-        lastName: "string",
-        dateOfEmployment: "string",
-        dateOfBirth: "string",
-        phone: "string",
-        email: "string",
-        department: "string",
-        position: "string"
-      },
-      {
-        id: 3,
-        firstName: "string",
-        lastName: "string",
-        dateOfEmployment: "string",
-        dateOfBirth: "string",
-        phone: "string",
-        email: "string",
-        department: "string",
-        position: "string"
-      }
-]
-
 const initialState = {
     employees: [],
     filteredEmployees: [],
@@ -94,11 +58,18 @@ export const updateEmployee = (updatedEmployee) => {
 };
 
 export const removeEmployee = (id) => {
-  const current = employeeSubject.getValue();
-  const originalEmployeesAfterRemoval = current.employees.filter(emp => emp.id !== id);
+  const employeeState = employeeSubject.getValue();
+  const originalEmployeesAfterRemoval = employeeState.employees.filter(emp => emp.id !== id);
+
+  const newPageSize = (employeeState.currentPage-1)*2;
+  let newCurrentPage = employeeState.currentPage
+  if(originalEmployeesAfterRemoval.length === newPageSize) {
+    newCurrentPage--
+  }
 
   updateStore({
     employees: originalEmployeesAfterRemoval,
+    currentPage: newCurrentPage
   })
 };
 

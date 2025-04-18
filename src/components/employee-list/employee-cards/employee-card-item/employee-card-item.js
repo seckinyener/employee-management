@@ -113,7 +113,6 @@ export class EmployeeCardItem extends LitElement {
       <confirmation-modal 
         .employeeName=${this.employee.firstName + " " + this.employee.lastName}
         .isOpen=${this.showConfirmationModal}
-        .employeeId=${this.employee.id}
         .mode=${this.actionType}
         @proceed=${this.confirmationProceedHandler}
         @cancel=${this.confirmationCancelHandler}
