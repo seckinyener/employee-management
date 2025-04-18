@@ -103,7 +103,7 @@ export class EmployeeCardItem extends LitElement {
                         <span class="material-icons">edit</span>
                         <span>${t('edit')}</span>
                     </button>
-                    <button class="delete" click=${this.deleteEmployee}>
+                    <button class="delete" @click=${this.deleteEmployee}>
                         <span class="material-icons">delete</span>
                         <span>${t('delete')}
                     </button>
@@ -174,9 +174,18 @@ export class EmployeeCardItem extends LitElement {
             color: white; 
         }
 
+        .edit:hover {
+            background-color:rgb(75, 61, 231);
+            color: white;
+        }
+
         .delete { 
-            background-color: #ff6600; 
+            background-color: var(--color-orange); 
             color: white; 
+        }
+
+        .delete:hover {
+            background-color: var(--color-orange-dark);
         }
 
         @media (max-width: 600px) {

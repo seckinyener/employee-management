@@ -44,8 +44,8 @@ export class ConfirmationModal extends LitElement {
                 
             </div>
             <div class="modal-buttons">
-                <button class="proceed" @click=${this._proceed}>Proceed</button>
-                <button class="cancel" @click=${this._cancel}>Cancel</button>
+                <button class="proceed" @click=${this._proceed}>${t('proceed')}</button>
+                <button class="cancel" @click=${this._cancel}>${t('cancel')}</button>
             </div>
             </div>
         </div>

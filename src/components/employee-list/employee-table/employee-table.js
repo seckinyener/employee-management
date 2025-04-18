@@ -108,7 +108,7 @@ export class EmployeeTable extends LitElement {
                 <col style="width: 140px" />
                 <col style="width: 140px" />
                 <col style="width: 140px" />
-                <col style="width: 200px" />
+                <col style="width: 160px" />
                 <col style="width: 120px" />
                 <col style="width: 120px" />
                 <col style="width: 100px" />
@@ -131,7 +131,7 @@ export class EmployeeTable extends LitElement {
             ${this.employeesInPage.map(emp => html`
                 <tr>
                     <td><input type="checkbox" .checked=${this.selectedEmployees.has(emp.id)} @click=${() => this.selectRowHandler(emp.id)}/></td>
-                    <td><strong>${emp.firstName}</strong></td>
+                    <td title=${emp.firstName}><strong>${emp.firstName}</strong></td>
                     <td><strong>${emp.lastName}</strong></td>
                     <td>${formatDate(emp.dateOfEmployment)}</td>
                     <td>${formatDate(emp.dateOfBirth)}</td>
@@ -181,6 +181,7 @@ export class EmployeeTable extends LitElement {
                 border-collapse: collapse;
                 overflow-x: auto;
                 min-width: 800px;
+                table-layout: fixed;
             }
 
             thead { 
@@ -189,12 +190,15 @@ export class EmployeeTable extends LitElement {
 
             th, td {
                 padding: 12px 16px;
-                text-align: left; /* tüm hücreleri sola hizalar, istersen center veya right yapabilirsin */
+                text-align: left;
                 vertical-align: middle;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             tr {
-                border-bottom: 1px solid #e0e0e0; /* her satırın altına çizgi */
+                border-bottom: 1px solid #e0e0e0;
             }
 
             th {
