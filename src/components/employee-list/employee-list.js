@@ -10,7 +10,8 @@ export class EmployeeList extends LitElement {
     static properties = {
         selectedView: {state: true, type: String},
         debounceTimer: {state: true},
-        hasAnyEmployee: {state: true, type: Boolean}
+        hasAnyEmployee: {state: true, type: Boolean},
+        hasAnyFilteredEmployee: {state: true, type: Boolean}
     }
 
     constructor() {
@@ -18,6 +19,7 @@ export class EmployeeList extends LitElement {
         this.selectedView = VIEW_MODE_TABLE;
         this.debounceTimer = null;
         this.hasAnyEmployee = false;
+        this.hasAnyFilteredEmployee = false;
     };
 
     connectedCallback() {
@@ -27,7 +29,8 @@ export class EmployeeList extends LitElement {
         })
         window.addEventListener('languageChanged', this.languageChanged);
         employee$.subscribe((data) => {
-            this.hasAnyEmployee = data.employees.length > 0
+            this.hasAnyEmployee = data.employees.length > 0;
+            this.hasAnyFilteredEmployee = data.filteredEmployees.length > 0
         });
     }
 
@@ -84,9 +87,9 @@ export class EmployeeList extends LitElement {
                     </div>
                 </div>
             </div>
-            ${this.hasAnyEmployee ? html` <div>
+            ${this.hasAnyEmployee ? html`${this.hasAnyFilteredEmployee ? html` <div>
                 ${this.selectedView === 'Table' ? html `<employee-table></employee-table` : html `<employee-cards></employee-cards`}
-            </div>` : html `<div class="no-records-warning">There is no employee record. Please create a record.</div>`}
+            </div>` : html`<div class="no-records-warning">${t('noRecordsAfterSearch')}</div>`}` : html `<div class="no-records-warning">${t('noRecords')}</div>`}
 
         </div>
         `
