@@ -120,7 +120,6 @@ export class EmployeeForm extends LitElement{
         const found = employeeRecords.find((item) => {
             return item.firstName === this.firstName && item.lastName === this.lastName && item.dateOfBirth === this.dateOfBirth;
         });
-        console.log('found user -> ', found);
         this.isUserAlreadyExist = found != null;
     }
 
@@ -172,7 +171,7 @@ export class EmployeeForm extends LitElement{
     render() {
         return html`
             <div class="form-container">
-                ${this.employeeDetails ? html`<div><strong>You are editing ${this.employeeDetails.firstName} ${this.employeeDetails.lastName}</strong>` : ''}
+                ${this.employeeDetails ? html`<div><strong>${t('updateUser', {name: this.employeeDetails.firstName + " " + this.employeeDetails.lastName })}</strong>` : ''}
                 <form @submit=${this.handleSubmit}>
                     <div class="grid">
                         <label>${t('firstName')}:
