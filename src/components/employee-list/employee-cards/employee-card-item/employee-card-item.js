@@ -2,7 +2,7 @@ import { css, html, LitElement } from "lit";
 import { removeEmployee } from "../../../../store/employee-store";
 import { Router } from "@vaadin/router";
 import { t } from "../../../../i18n";
-import { state } from "lit/decorators.js";
+import { formatDate } from "../../../../utils/util";
 
 export class EmployeeCardItem extends LitElement {
 
@@ -76,11 +76,11 @@ export class EmployeeCardItem extends LitElement {
                 </div>
                 <div class="input-block">
                     <div class="input-block-label">${t('dateOfEmployment')}:</div> 
-                    <div><strong>${this.employee.dateOfEmployment}</strong></div>
+                    <div><strong>${formatDate(this.employee.dateOfEmployment)}</strong></div>
                 </div>
                 <div class="input-block">
                     <div class="input-block-label">${t('dateOfBirth')}:</div> 
-                    <div><strong>${this.employee.dateOfBirth}</strong></div>
+                    <div><strong>${formatDate(this.employee.dateOfBirth)}</strong></div>
                 </div>
                 <div class="input-block">
                     <div class="input-block-label">${t('phone')}:</div> 
