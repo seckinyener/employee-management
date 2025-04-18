@@ -2,7 +2,6 @@ import { css, html, LitElement } from "lit";
 import router from "../../router";
 import { Router } from "@vaadin/router";
 import { t, setLang, getLang } from "../../i18n";
-import { session$, updateSelectedLanguage } from "../../store/session.store";
 import { materialIconStyles } from "../../style/common";
 
 export class AppBar extends LitElement {

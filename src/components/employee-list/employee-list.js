@@ -1,6 +1,6 @@
 import { css, html, LitElement } from "lit";
 import employeeState from "../../store/employee-store";
-import { session$, updateViewMode } from "../../store/session.store";
+import sessionStore from "../../store/session.store";
 import { VIEW_MODE_CARD, VIEW_MODE_TABLE } from "../../utils/constants";
 import { t } from "../../i18n";
 import { materialIconStyles } from "../../style/common";
@@ -22,7 +22,7 @@ export class EmployeeList extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        session$.subscribe((data) => {
+        sessionStore.session$.subscribe((data) => {
             this.selectedView = data.viewMode;
         })
         window.addEventListener('languageChanged', this.languageChanged);
@@ -41,7 +41,7 @@ export class EmployeeList extends LitElement {
     }
 
     changeTheView = (selectedView) => {
-        updateViewMode(selectedView);
+        sessionStore.updateViewMode(selectedView);
     }
 
     render() {
